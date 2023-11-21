@@ -1,0 +1,5 @@
+https://fr.wikipedia.org/wiki/Authentification
+https://fr.wikipedia.org/wiki/Authentification_forte
+https://fr.wikipedia.org/wiki/Data_Encryption_Standard
+https://fr.wikipedia.org/wiki/MD5
+https://fr.wikipedia.org/wiki/Advanced_Encryption_Standard

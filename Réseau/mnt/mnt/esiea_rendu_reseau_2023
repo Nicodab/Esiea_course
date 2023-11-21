@@ -1,0 +1,29 @@
+dimanche : 05/11/2023
+heure : 23h00
+mail : damien.gros@cea.fr
+sujet : [MSSIS] projet réseau
+Mot de passe : ESIEA
+-- un zip avec votre nom pour dossier
+-- exemple :
+	damien.gros.zip
+		--> gros/toto.java
+		--> gros/README
+		--> gros/pcap.exemple.arp
+-- Protocole :
+	- Ethernet
+	- ARP
+	- IPv4/ICMP
+	- TCP/UDP, Follow TCP Stream
+	- DNS
+	- HTTP 1.1
+	- QUIC
+	- DHCP
+	- optionnel : IPv6
+-- Lib autorisée :
+	- io
+	- net
+	- util
+	- lang
+	- nio
+	
+rq: kame.net pour savoir si on est en IPv4 (tortue qui danse pas) ou IPv6 (tortue qui danse)

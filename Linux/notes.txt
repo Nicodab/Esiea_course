@@ -1,0 +1,310 @@
+__ < file 
+__ > __ (écrase le file)
+__ 2> __ (sortie d'erreur --> c'est différents de la sortie standart)
+__ >> __
+__ 2>> __
+
+Using > to redirect output is the same as using 1>. This says to redirect stdout (file descriptor 1).
+
+cmd &2>1 file (jsp ce que ça fait mais c'était pas la sol°)
+cmd 2&>1 file (rediriger la sortie vers un fichier, vers un handle). Ca crée un fichier "1" et il contient la sortie d'erreur.
+cmd 2>&1 file (rediriger la sortie d'erreur vers la sortie strandard)
+
+cmd 2>&1 > file (ça crée un fichier mais à voir exactement).
+cmd file 2>&1 ( ça fonctionne _ça fait bien ce qu'on veut)
+cmd 1>file 2>&1 (le prof a vu aussi cmd 1>file 2>&1)
+cmd &> file (c'est du bash mais pas du shell, à prioris ça fonctionne --> Ca redirige tous les fluxs)
+
+sort | file (essaie de trier un truc qui n'existe pas) lance la suite sur la commande file)
+sort file1 file2 --> Trie le contenue des 2 fichiers (meilleur solution optimisé d'après le prof)
+
+sort > file (trier vers 1 fichier sans utiliser vi)
+rq: ctrl+d pour demander d'arrêter à la commande sort de trier
+
+sort > noms.txt --> Puis entrer les noms (1 nom, Entrée, etc) une fois que la commande est lancée "Nicolas" "Lucas" "Evan"
+
+rq: cmd >file 2>&1 (ici ça redirige la sortie 2 vers la sortie 1) alors que ds la commande (cmd &2>1 file), le & lance en tâche de fond.
+
+
+sort -u file (elle trie et elle retire tous les doublons) --> Dans la vie réel cette commande est mieux
+sort file | uniq ()
+cat file | sort | uniq (d'abord ça sort puis ça fait uniq)
+cat file | uniq | sort (rigolo comme les sorties mais pas bon)
+cat file | uniq | sort | uniq ---> fait la meme chose qu'avec le -u
+
+more file
+cat file | more
+
+reprise:
+echo 'I am $USER' --> c du texte
+echo "I am $USER" --> c une variable
+
+on peut aussi insérer des commandes:
+uname: donne le nom du noyau
+uname -a: toutes les infos du noyau de son archi etc
+uname -r: donne uniquement le n° de version du noyau
+si on fait "cd /lib/modules" on voit la v courante et les versions précédentes.
+rq: avec unamre -r on a la v courante
+
+rq: 
+ -noyau modulaire = il y a des modules --> modules non actives par défaut ms que le sys charge à la demande
+ - qd on créer son module on compile un fichier .ko je crois
+ 
+Comment chronométrer l'exec d'1 tache ? 
+time nomCommande 
+ex: time ls -R /etc
+
+time donne 3 temps:
+- temps réel: comme qd tu prend ton chrono et que tu l'actives au début et stoppe a la fin d'une activité --> temps sys + temps user + temps d'attente
+- temps user: 
+- temps sys: ts les accès disque se font en espace sys -> dc c du temps sys
+
+rq: temps user + temps sys souvent < temps réel car on a un sys multitaches > et il donne la main à d'autre process quand c'est lancé
+rq: le temps user ne peut etre sup au temps réel; mais avec la cmd top, le temps (user je crois) peut etre sup à 100% je crois
+
+Def° de variable:
+ds un shell on peut définir des variabels:
+ex déclarer une var: 
+FOO="bar" (ds le process actuel) ou export FOO="bar" (dans le process et ses process enfants)
+echo $FOO pour afficher.
+
+variable a gros impact:
+HOME -> représente le Home directory
+PATH -> 
+EDITOR -> Editeur de texte par défaut (souvent nano, vi). Elle n'est pas forcément renseignée.
+TERM -> type de terminal qu'on a. Peut-etre utiliser ave un reverse shell (commme avec netcat ou un bash)
+LINES -> nb lignes de notre terminal
+COLUMNS -> nb colonnes de notre terminal
+LD_PRELOAD -> var qui dit au sys de pré-charger une librairie. Permet de surcharger des f° de la lib C par ex. L'étape premier c'est de faire un strings du fichier.
+
+toutes var d'env peut changer le comportement d'un prog.
+donc attention à $PATH et $LD_PRELOAD qd on récupère un sys.
+
+rq var env --> pour voir toutes les vars d'environnement > env ou set.
+env stocke en mémoire ds l'env de chaque commande les vars d'environnement.
+
+rq: 
+- certains avant ont commencé leur variable PATH par un point. Quelle est l'impact ? ça crée de vulns parce que ça peut exécuter des choses (ça peut aider pour les ctf pour faire des escalades de privilèges)
+- le point se met à la fin pour eviter l'exec
+- autre alternative --> sl au lieu de ls
+--> conclusion: ne pas mettre de point dans le PATH --> mettre absolument le nom du répertoire en absolue
+
+rq: /proc/PID pour trouver 1 processus
+ls /proc/self/ --> y'a des vecteurs d'attaques qui passent par /proc/self
+cat /proc/self/environ --> c'est ds ce file que y'a toute les var d'env.
+
+où se trouve vim ? faut taper "which wim" pour savoir ou alors "whereis vim". which est aps mla d'après le prof.
+
+
+Attention --> revoir
+- bashrc
+- sourcec
+- Pipe Nommée !!
+- vi/vim
+- voir ce qu'est CCAT sur debian/ubuntu pour voir ce que les autres voulaient voir
+- voir à quoi sert /dev et dev/zeor les trucs comme ça
+- voir le nm à quoi ça sert
+- voir les principes de blocks auniveau de la taille des fichiers.
+- revoir les permissions de fichier et comment marche chown
+- revoir ce qu'est un patch etainsi que la commande linux
+
+rq: netcat est 1 cmd qui permet d'avoir un shell distant, et on peut le faire aussi avec bash --> La sortie du terminal vient dans l'entrée du tien et inversement.
+- y'a pas de corbeille qui n'est qu'un concept de l'interface graphique --> cette corbeille marche que pour les progs qui fonctionnen avec la corbeille.
+rappel:
+commande strings --> Va afficher ce que strings pense etre des chaines de texte dans un fichier. C'est un peu la base du reverse.
+ 
+
+Voir tout ça pour bash:
+.bashrc --> fichier de config du bash. C'est dans le bashrc qu'on donne le cnb de commande dispo dans le bash_history.
+.bash_history (1000 dernière commande). Un attaquant peut demander de ne pas enregistrer l'hitorique de ces cmmandes sur l'OS. --> Comande "history" pour voir l'historique des commmandes.
+	tips: on peut taper "cmd ctrl-r" qui est un reverse search.
+.profile
+.bash-profile
+
+avec ls on peut savoir la taille d'un file: mais comment savoir la taille d'un fichier sur le disque:
+--> du (disk usage)
+ex: du sdBM /etc/* (force l'unité en megaOctet, on force à avoir une somme et un calcul pour chaque répertoire)
+
+rq: si on veut le voir dans le shell on peut taper history direct.
+
+comment connaitre l'espace libre d'un disque ? 
+avec df (disk free)
+df -h /etc --> Savoir si on peut écrire encore de la place dans etc.
+
+combien sera la taille de ce fichier:
+dd if=/dev/zero of=test.dd count=1
+dd if=/dev/zero of=test2.dd count=1 seek=1000000
+ou alors dd if=/dev/random of=test2.dd count=1 seek=1000000
+rq: système de sauvg par block n'auront pas de soucis avec ça mais ptetre un problème lors de la restauration du fichier.
+
+et après on recheck avec df - /etc (ou le répertoire intéressant) --> on peut avoir des fichiers qui dépasse la capacité du disque.
+et en fait ce fichier est un fichier creux (sparse en anglais) car on a fait que 1 block. Donc en gros on peut créer des fichiers bcp + gros que la capacité du disk.
+Cette technique est bien pour vérifier les logiciels de sauvegarde.
+random et urandom (urandom a une entropie + forte que random)
+
+bien comprendre la diff entre la taille affiché lors du ls et la taille affiché sur le disk.
+
+
+compression fichier:
+cat file | gzip - > file.gz <=> gzip -k file (si on met pas le -k ça supprime le fichier de départ dans la 2ème commande) --> exo mais revoir j'ai rien compris
+tar cf etc.tar /etc (f=file, v=verbose)
+rq: archive ca prend les données et ça les met tel quelle --> tar est une archive et non une compression. Donc tar ne compresse pas. mais quand on fait tar sur etc on réduit quand meme la taille de etc quand on fait tar sur le répertoire etc.
+quelle est la taille des blocs dans un tar ? (c'est 510 octets ?) En gros on gagne 1024 octets par fichier. Donc plus on a de fichier plus on gagne.
+
+quell diff entre UN fichier et UN fichier archivé ? Qu'est ce qu'on a ds une archive ? qu'est ce qu'une archive ?
+Dans le header d'un tar on a par ex l'arboresence et les meta données des fichiers. Donc dans un fichier archivé on a les meta données du fichier + les données archivées.
+changements de padding on est passé d'un padding à "jsp cmb" à 512 octets.
+Question ? c'est quoi un padding ? C'est qd on créer un fichier on donne 512 octets par ex mais que ça prend bcp moins bah ça va remplir le reste des données avec des 0.
+
+hexdump -C file | less --> on voit la représentation hexa du fichier. Mais à quoi ça sert ? 
+
+rq: qd on a de la compression transparente c'est gzip qui est utilisé.
+on peut concaténer 2 fichier .gz avec un cat.
+ex: 1.gz 2.gz > 3.gz
+de +, pour décompresser un file.gz --> gunzip file.gz (ou alors on rajoute le -k avant file.gz) ou alors zcat file.gz > file
+en gros: gunzip créer un fichier alors que le zcat te le met à l'écran.
+
+bzip2: apparement mieux que gzip (meme si gzip est très bien)
+
+exo de base redefinition:
+
+time tar cf etc.tar /etc
+time gzip -k etc.tar (gzip rapide à compresser)
+time bzip2 " " " " "
+time xz " " " " " 
+rq: time pour vérifier le temps de chaque compression qui est censée etre de + en + lente.
+xz son ancienne version est lzma.
+puis on décompresse: time gunzip -kc etc.tar.gz > /dev/null
+
+pour zip: plusieurs on fait ça --> zip -r etc.zip /etc mais on se retrouve avec un plus grand que le fichier tar qui lui ne comrpesse pas
+pour rar pour compresser est mauvais par design
+
+ex avec le tar pour archiver puis compresser directement: 
+	- tar czf etc.tar.gz /etc
+	- tar cjf etc.tar.bz2 /etc
+	- tar cJf etc.tar.xz /etc
+
+Pour vérifier l'intégrité:
+- md5 sum 
+- sha1 sum
+- sha256 sum
+- sha512 sum
+
+rsync src dst --> sur sa propre machine y'a peu d'intérets mais sur une autremachine y'a un peu d'inntéret et sur un serveur distant c'est top.
+pour le serveur il faut passer par un protocole réseau.
+Donc rsync on le fait passer par du ssh. (avant ssh y'avait ftp, telnet(pas ouf), rlogin --> authentification par ip (pire encore) par ex).
+rq: r pour remote.
+ftp: 1 canal ds lequel on passe les commandes, et celui où passe les données --> C'est soit le client qui se co au serveur soit l'inverse et les boxs intermédiaires peuvent refuser la co.
+ftps est le ftp sécurisé car c'est chiffré, etc. A Revoir
+
+DONC y'a que ssh qu'on retient et on l'utilise comme tel:
+ssh login@IP --> authen par clé ssh ou par mot de passe.
+ex pour les clés ssh --> ssh-keygen RSA ~/.ssh/id-rsa.pub (par défaut c'est du RSA) 
+rq: soit on met la clé en claire soit on met une passphrase.
+rq: le champ commentaire ds la clé on met en général son adresse email.
+
+on revien sur rsync une fois que la clé ssh est générée.
+--> rsync -a Linux login@IP:MSSIS/ (prend localement le dossier linux qu'il va positionner sur la achine MSSIS)
+
+clé ssh crée: SHA256:LovxgQHCt0JZNUCQzIUMo0acpd/Q1JXigLXEPNUh6Q8
+he key's randomart image is:
++---[RSA 3072]----+
+|OoO*B*oo+oo      |
+|+X+.+=o+.o       |
+|o*.o o= .        |
+|o.o.+  E         |
+| . o..  S        |
+|  .  o . .       |
+|    o o .        |
+|     + +         |
+|    . o          |
++----[SHA256]-----+
+
+
+évaluation info: tous les cours doivent être évaluées.
+diff, sleep, patch, wc, find, bc, locate, date, who, git, whoami, wget
+- tp 
+- exo ctf: on devra créer un challenge (on aura 1 mois), il autorise les binomes. un docker qui contient l'environnement du ctf. Il va nous donner ce qu'il a préparé pour une 20aine d'épreuves pour nous entrainer pour conceptionner des ctf.
+- moodle pour 2 semaines c'est noté sur tous les cours.
+
+rq: les épreuves seront basé sur des commandes ou les options d'une commandes.
+
+
+mkdir v0 --> on y met le script python de ce matin
+
+Machine développeur:
+	cp -r v0 v1
+	vim v1/file.py (pour modifier le fichier python avec un commentaire par exemple)
+	//diff -ru v0 v1 (ru pour le format unniversel)
+	diff -ru v0 v1 > file.patch --> Ca le met dans un fichier et on a un patch. (ru pour format universel).
+Machine autre (éditeur ou client)
+	rm -rf v1 (pour etre tout a fait correct)
+	cd v0
+	patch -p1 < ../file.patch --> principe d'un patch c'est d'appliquer un correctif (censé l'appliquer chez les autres et ici on simule le fait de l'autre ordi en supprimer la v1).
+
+un patch ça peut s'annuler --> 
+patch -p1 -R < ../file.patch (il va nous dire que le patch estd éja fait et de lui mee il va nous dire qu'on peut revenir en arrière).
+
+Question: qu'est ce que REXEC
+
+Commande Find:
+find . -name file --> . est le dossier ds lequel on veut chercher (la commande locate va que remplacer cette ligne mais c'est renouvelé toutes les 24h donc c'est en train de disparaitre.)
+find . -iname FILE (insensible name). ici on cherche un fichier dont on est pas sur de la "casse"
+find /bin/ -type f -perm -4000 -ls (/ après le bin car bin est un lien symbolic, si on enlève le 2ème / ça rentre dans le fichier) -4000 = au MOINS les permissions 4000 et si on veut dire juste les permissions 4000 on ne met pas le - devant et le -ls c'est pour l'avoir à l'écran.
+Avec find, l'option size peut-être utilisé aussi.
+find ~ -size +10M --> Ca va chercher un/des fichiers qui fait au moins 10 mega octets. 10M pour 10 Mega.
+
+Commande whoami:
+on sait
+
+Commande id: 
+on sait
+
+Commande who ou w:
+Ca permet de savoir qui est connecté.
+
+Commande wget: permet de télécharger
+ex: wget -N URL. -N pour le timestamp --> donc la date du fichier qu'il va récupérer. donc si on a déjà récupérer le fichier il va changer la date avec l'ancien timestamp c'est ça ? 
+l'option -m (m pour miror) est intéressante aussi d'après le prof.
+
+Sleep 60m puis reboot ou eject
+
+bc (basic calculator) command:
+bc -l (option du prof)
+
+Commande date: date donne la date d'ajd
+
+Commande git:
+
+Commande grep:
+
+grep -r motif dir (option, motif et fichier/répertir)
+grep -i (pour ignorer la casse)
+grep -v (sert à exclure les lignes qui contiennent un certains motif)
+grep -E ou -P (E: Extended Regular Expression ou P: Perl Regex)
+
+connexion en ssh sur 10.0.4.9
+	12221
+	    |
+	    |
+	    |
+	    8
+	12230
+	    |
+	    |
+	  240
+	 
+	 
+ctf1: CGR{ssh1_flag} fallait juste se co avec l'IP de sa machine
+ctf2 ():
+ctf3 (port 12230): fouiller dans la machine une fois rentrée avec ctf en username et easynetstat en pwd)
+ctf4 (port 240): pas besoin de mdp, on a juste besoin de forward --> voir sur google comment faire une forward
+
+dans le dossier Revision_devoirs --> c'est nos devoirs et on doit rendre par mail.
+L'archive que l'on devra rendre au prof est un tar.gz
+
+(cristophe)grenier@cgsecurity.org
+
+sur le moodle y'a 2 cours et on ne fait que celui avec les rappels Linux. Qd on lance le qcm on a que 15 min
+
+pas bcp de points sur la partie td il fera --> et les challenges ne sont pas notés c'est plutot ce qu'on lui envoit comme rapport j'imagine.

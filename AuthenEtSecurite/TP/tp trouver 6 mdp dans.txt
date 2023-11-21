@@ -1,0 +1,37 @@
+tp1:
+trouver 6 mdp dans le fichier de conf avec cette cmd: cat conf_cisco | grep -E "password |secret|community"
+qui nous donne:
+enable secret 5 $1$L7N7$vXueqkVC4TtkkEzggjwDN.
+enable password 7 010103005A05031B
+ ppp chap password 7 0303590E505D375E
+ ppp pap sent-username fti/3xXXXXX@fti password 7 050C040A771E581B
+snmp-server community public RO
+ password 7 105C0C1D0419171F
+ 
+ Donc le seul mdp en clair est "public" qui est un mdp par défaut/ou d'une wordlist et c'est RO sur la ligne snmp pour Read-Only --> Donc on peut aller lire la conf du routeur/sswitch
+ rq: si c'est RW d'habitude "private est le mot de passe par défaut"
+ 
+ La suite: on s'intéresse au pwd 7 --> algo du propriétaire cisco de chiffrement réversible et c'est volontaire. Depuis 2001, tt mdp en pwd sable on peut le déchiffrer
+ Donc go récupérer les pwd7 et les déchiffrer avec un outil python sur git ou bien avec un site en ligne de pwd decryptor
+ 
+ A partir de ces 4 mdp chiffré on obtient que 2 mot de passes car pour 4 hash on voit 2 fois le même mdp: C'est à cause de la SALT rajouté avant le mdp pour chacun
+ - gbe62vr
+ - redanet
+ 
+ La suite: On sait que deux même mdp sont utilisé 2 fois c'est une vuln et que le public est un mdp par défaut
+ avec john on trouve que le hashmd5
+ 
+ tp2:
+ se mettre dans le grub et faire 'e' quand on est sur ubuntu, ou linux --> Puis aller voir la ligne 'linux ......' et rajouter single à la fin (puis "Ctrl+X" pr sauver). on se co en tant que monouser. Ils demandent ensuite le mdp root. Mais il fut un temps où c'était pas demandé. C'est init qui est lancé quand le grub lance l'os. "Si c'est init" qui pose problèmes il faut le changer avec 'init=/bin/sh'
+ 
+ tp 3: rootme chall sam&scooby
+ 1er étape: avoir les hash --> utiliser creddump ou samdump2
+ creddump7 (python):
+ - pwdump.py chemin/vers/fichier/system chemin/vers/fichier/sam: ça nous sort une liste de username:hash_de_mdp
+ Ensuite on prend ça et on l'utilise avec John The Ripper : "john fichier_contenant_les_hash.txt" t ça cherche les mdp.
+ 
+ Rq: comme on est root de notre machine on peut récupérer les fichiers system et sam de notre machine Windows et cracker notre propre mdp avec ces outils.
+ 
+ tp4: pour se rendre ciompte de l'impact qu'à un compte piraté
+ - 1er étape d'un hacker: récupérer tous les mdp enregistré
+rq: sur github on a projet qui s'appelle 'lazagne' pour récupérer les mdp 

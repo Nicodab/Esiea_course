@@ -1,0 +1,9 @@
+#alert dns any any -> any any (msg:"DNS vers TLD hair"; dns_query; content:".hair"; endswith; sid:1000000; rev:1;)
+#alert dns any any -> any any (msg:"DNS vers TLD beauty"; dns_query; content:".beauty"; endswith; sid:1000001; rev:1;)
+#alert tls any any -> any any (msg:"TLS vers beauty"; tls.sni; content:".beauty"; endswith; sid:1000002; rev:1;)
+#alert tls any any -> any any (msg:"TLS vers hair"; tls.sni; content:".hair"; endswith; sid:1000003; rev:1;)
+#alert tls any any -> any any (msg:"test"; pcre:"/toto/"; flow:established,to_client; sid:1;)# pour regarder uniquement le string en direction du client --> on le verra souvent pour les signatures
+#alert tls any any -> any any (msg:"TLS certificate changed "; tls.sni; content: "students.gotohack.io"; sid:1;)
+# On fait 2 évaluations en n'envoyant pas d'alertes avec le 1er, la deuxième alerte est déclenché si elle est validée et que le 1
+alert tls any any -> any any (msg:"TLS change"; tls.sni; content:"esiea.fr"; endswith; tls_sid:100000; rev:1; flowbits:set, visit_esiea; noalert)
+alert tls any any -> any any (msg:"TLS change"; tls.cert_fingerprint; content:"75:ad:1b:13:71:0d:41:7f:79:c1:c0:fb:68:43:dc:72:ba:74:ed:c5"; sid:1000001; rev:1; flowbits:isset,visit_esiea;)

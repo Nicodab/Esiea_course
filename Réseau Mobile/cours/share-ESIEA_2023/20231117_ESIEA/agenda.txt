@@ -1,0 +1,61 @@
+Vendredi 17 novembre 2023
+9h - 18h30: ESIEA, sécurité des réseaux mobiles
+9 rue Vésale, 75005 Paris. 
+
+
+1.BMU) Illustrer le concept de connexion et de signalisation d'un abonné mobile
+=> SSTIC2022_P1sec_signalisation-operateurs-mobiles_prez.pdf
+
+
+2.BMU) Illustrer la stack cellulaire dans les smartphones
+Mettre en relation avec l'architecture du réseau (BTS / CN / HLR-HSS)
+Expliquer le principe de fonctionnement des réseaux mobiles:
+- abonné localisé en permanence au niveau MSC/VLR, SGSN, MME par son HLR, HSS
+- chaque MSC/VLR, SGSN travaille avec des BTS 2G et 3G selon un (ou quelques) LAC, RAC
+  et CellID par BTS
+- chaque MME travaille avec des BTS 4G selon un (ou quelques) TAC et CellID par BTS
+- le téléphone ne se connecte que lorsque nécessaire (appel / SMS sortant, connexion data)
+- le réseau connaît la position de l'abonné et effectue un paging via toutes les BTS
+  d'un LAC
+
+=> P1 C5202: stack cellulaire
+   https://docs.google.com/presentation/d/18r7VerKY_XJ1Qkw8-2K0fTiu-XHhyQUFnkmEqTVd93c/
+=> P1 C1601: archi réseau 2G, 3G
+   https://docs.google.com/presentation/d/16FEweP2kn3c2zb7DxurGC52wXx_JCs6xS6_6DjeHOCw/
+=> P1 C2146: archi réseau 4G + cinématique d’authent et d’activation de la sécurité, et d’attaque
+   https://docs.google.com/presentation/d/16FEweP2kn3c2zb7DxurGC52wXx_JCs6xS6_6DjeHOCw/
+
+
+3.BMU) Illustrer avec des captures faites sur des smartphones (ou clé USB), par exemple avec QCSuper
+pcap qc-diag: 2G, 3G, 4G, avec data, SMS, SS
+pcap OAI: avec S1AP, Diameter, GTP-C v2, GTP-U
+
+
+4.RBY) EXO: questionner les étudiants
+Trouver sa loc mobile: PLMN-ID, LAC / RAC / TAC, CellID, antennes voisines
+Trouver son adresse SMS-C, son APN, son IMSI
+Retrouver la localisation géographique d'un abonné à partir de son PLMN-ID, LAC et CellId GSM (OpenCellID)
+
+
+5.BMU) Faire un petit focus sur les procédures de sécurité
+- authentification + carte SIM / HLR-HSS
+- activation de la sécurité
+=> P1 C1601: sécurité 2G-3G
+=> P1 C2146: activation de la sécurité d'une connexion LTE
+- problèmes de sécurité en 2G
+- problèmes de sécurité en 3G, 4G
+=> P1 C2146: interception d'une connexion LTE dûe à un défaut d'implémentation côté terminal
+
+
+6.RBY) Présenter l'architecture des coeurs de réseaux mobiles et des intercos SS7 (2G-3G) 
+et Diameter (4G) entre opérateurs
+
+Illustrations possibles du roaming, et des risques associés:
+=> SSTIC2022_P1sec_signalisation-operateurs-mobiles_prez.pdf
+
+
+7.RBY) EXO: CTF SS7 (BMU en support)
+https://ctf.p1sec.fr/
+ou
+https://github.com/P1sec/Sig-Exercice
+

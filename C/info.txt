@@ -1,0 +1,7 @@
+info
+
+Bonjour a
+Bonjour b
+Bonjour c
+Bonjour d
+Bonjour e

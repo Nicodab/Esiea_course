@@ -1,0 +1,99 @@
+Une valeur qui est affecté --> c'est pas changeable, une valeur est immutable
+
+println! c'est âs une fonction mais une macro:
+
+Les f°: mot clé c'est fn
+le type de retour est avec une flèche (comme pyton)
+
+Y'a des tuples commme en python
+les tableaux ça marche comme en C.
+On peut printer un tableau sans avoir à faire une boucle pour le printer
+
+On peut afficher une structure avec un printf
+
+Les dynamiques array ne sont pas statiques
+
+le match --> c'est un switch
+
+Dès qu'une f° nous renvoie un résultat il faut vérifier en faisant un truc comme ça:
+
+use std::fs::File;
+
+fn main() {
+
+	let f = match f {
+		Ok(file) => file,
+		Err(error) => panic!("Problem opening file: {:?}", error),
+	};
+}
+
+2 types d'erreur en rust: 
+- panic pour les "erreurs unrecoverable".
+- Result<T, E> : c'est un enum:
+		{
+			Ok(T),
+			Err(E),
+		}
+
+si on vaut renvoyer à l'étage d'aud essus l'erreur on fait comme ça:
+use std::fs::File;
+use std::error:Error
+fn main()->Result<(), Box<dyn Error>>{
+	let f = File::open("hello.txt")?; // le ? permet de renvoyer l'erreur au dessus
+	Ok(());
+}
+
+On aura les slides.
+
+Pour des librairies (mais y'a besoin de les compiler pour faire marcher le projet) --> https://crates.io/
+docs.rs --> très bien documentée la doc de rust en général (même pour les lib).
+
+Liens intéressant:
+Rust by Example: très bon site
+Rustlings: exos officiels !
+
+Quand on a un ? ça permet de pas faire de match ou de unwrap --> Soit ça récupère une erreur du result de la sous fonction ou alors ça prend la valeur qui y'a dans le Result de retour. 
+
+
+
+Ownership: permet de désallocer les variables ---> permet de remplacer le agrbage colelctor et le free.
+	Ownership & scope à revoir
+
+Cloner une variable avec le trait: "en java ça ressemblerait à une interface mais implémentée"
+Comprendre les concepts de copie.
+
+Pour éviter de faire des copies on peut emprunter: le Borrowing
+	On peut avoir qu'une seul référence mutable à une variable et le reste sera immutable.
+	Donc on ne pourra changer qu'avec une seul instance cette variable
+	
+fn main() {
+    let mut a = [1, 2, 3];
+    
+    {
+        let mut b = &mut a;
+        a[0] = 4;           --> Error: car a n'est plus la seule référence mutable, c'est mnt b jusqu'à al fin des {}
+        println!("{:?}", b)
+    }
+    a[0] = 5;
+    println!("{:?}", a)
+}
+
+le code correct est celui-ci:
+fn main() {
+    let mut a = [1, 2, 3];
+    
+    {
+        let mut b = &mut a;
+        a[0] = 4;
+        println!("{:?}", b)
+    }
+    a[0] = 5;
+    println!("{:?}", a)
+}
+
+Code instrcutions STacked VM:
+Serde permet de serializer, désiréalizer, ...
+
+
+Test unitaires:
+

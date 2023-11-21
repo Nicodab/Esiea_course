@@ -1,0 +1,21 @@
+Use a ssh client to contact the server on port 12221.
+
+Steps:
+- connect to the ssh server
+- identify as ctf with password easyssh
+- grab the flag
+
+==
+	sed -i -e 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config && \
+	sed -i -e 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config && \
+	sed -i -e 's/^Subsystem/#Subsystem/' /etc/ssh/sshd_config && \
+	sed -i -e 's/^#AllowAgentForwarding.*/AllowAgentForwarding no/' /etc/ssh/sshd_config && \
+	sed -i -e 's/#PermitRootLogin prohibit-password/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config && \
+	echo 'Match User ctf' >>  /etc/ssh/sshd_config && \
+	echo '  PasswordAuthentication yes' >>  /etc/ssh/sshd_config && \
+
+find / -perm -2 ! -type l 2> /dev/null | grep -v /proc
+
+find / -perm -2000 2> /dev/null
+find / -perm -4000 2> /dev/null
+

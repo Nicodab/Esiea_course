@@ -1,0 +1,6 @@
+The following commands may be useful to explore and find the flag: 
+
+ls - list directory contents
+cd - change the current directory
+pwd - print name of current/working directory
+cat - concatenate files and print on the standard output

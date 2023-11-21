@@ -1,0 +1,68 @@
+#! /usr/bin/python3
+#! est un shebang et spécifie à l'interpréteur qlqch
+
+cmd / tee file --> voir ce que c'est ou alors ptetre c'est cmd | tee file
+make | tee make.log
+
+yes | nm -i file 1....file n
+revoir ce que fait la commande nm
+
+commande dd :
+voir ce que c'est exactement 
+
+pour effacer les disque dur (à ne pas tester tout de suite):
+rq: on a sans doute deux disque --> sda, sdd.
+/dev/random --> Voir (diff entre dev/random et dev/u; ça dépend du noyau linux utilisé)
+
+chatgpt description de la commande dd:
+La commande `dd` est une commande puissante disponible sur les systèmes d'exploitation de type UNIX, y compris Linux. Elle est principalement utilisée pour la copie et la conversion de données brutes d'un fichier ou d'un périphérique de stockage à un autre. Le nom "dd" signifie "data duplicator" ou "disk dump" (dump de disque), bien que son utilisation ne se limite pas à la duplication de disques.
+
+La syntaxe générale de la commande `dd` est la suivante :
+
+```bash
+dd [options]
+```
+
+Voici quelques utilisations courantes de la commande `dd` :
+
+1. **Copie de fichiers** : Vous pouvez utiliser `dd` pour copier des fichiers d'un emplacement à un autre. Par exemple, pour copier un fichier appelé `sourcefile` vers `destinationfile`, vous pouvez utiliser la commande suivante :
+
+```bash
+dd if=sourcefile of=destinationfile
+```
+
+2. **Copie de périphériques** : `dd` peut également être utilisé pour copier des données depuis ou vers des périphériques de stockage, tels que des disques durs, des clés USB, etc. Par exemple, pour copier le contenu d'un disque dur (`/dev/sdX`) vers un fichier image, vous pouvez utiliser la commande suivante :
+
+```bash
+dd if=/dev/sdX of=imagefile
+```
+
+3. **Création d'images de disque** : Vous pouvez créer une image d'un disque ou d'une partition en utilisant `dd`. Cela peut être utile pour sauvegarder ou cloner des disques. Par exemple, pour créer une image d'un disque dur entier, vous pouvez utiliser :
+
+```bash
+dd if=/dev/sdX of=diskimage.img
+```
+
+4. **Création de médias amorçables** : Vous pouvez utiliser `dd` pour créer un support de démarrage à partir d'une image ISO. Par exemple, pour créer une clé USB bootable à partir d'une image ISO, utilisez la commande :
+
+```bash
+dd if=image.iso of=/dev/sdX bs=4M
+```
+
+5. **Conversion de format** : `dd` peut être utilisé pour convertir des données d'un format à un autre. Par exemple, pour convertir un fichier texte en majuscules en un fichier tout en minuscules, vous pouvez utiliser `dd` avec des options appropriées.
+
+Il est essentiel d'être prudent lors de l'utilisation de `dd`, car une mauvaise utilisation peut entraîner la perte de données. Assurez-vous de spécifier correctement les options `if` (input file) et `of` (output file) pour éviter d'écraser des données importantes. De plus, assurez-vous de comprendre les options `bs` (block size) et `count` pour contrôler la manière dont les données sont lues et écrites.
+
+La commande `dd` est un outil très puissant, mais elle ne vous avertira pas en cas d'erreur, donc faites preuve de prudence lors de son utilisation.
+
+>> Revoir ce qu'est un process <<
+ps ne permet que de voir les process  rattaché au terminal en cours.
+ctrl-z après avoir lancer la commande --> zzz (ça dort) donc ça peut mettre un process en sommeil
+alors que cmd & (fait autre chose pour un process)
+
+kill -9 pid --> arrete un process en cours ou en pause
+bg %1 --> mettre en background
+fg %1 --> pour le 1er job puis ctrl-z ( ces 2 cmd vont arrêter le process) 
+
+evince file.pdf --> permet d'utiliser une interface graphique plutot que yes qui est chiant
+

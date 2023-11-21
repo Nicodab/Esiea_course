@@ -1,0 +1,23 @@
+12221 ssh1: ssh shell
+12222 ssh2: sftp
+12223 ssh3: scp
+12224 ssh4: redirection TCP
+12225 ssh5: auth par clé
+12226 ssh6: auth par clé
+12227 ssh7: ProxyJump
+12228 ssh8: auth par clé, redirection TCP, mysql
+11230 netstat
+12231 ss
+12232 execute:
+12233 execute2: dynamic elf
+12234 execute3: chmod
+12235 strings
+12236 base64
+12237 vim
+12238 gcc
+12239 patch
+12240 git
+
+Pour lundi 6 novembre 2023 9h,
+- individuellement faire le Quizz "Rappel Linux" sur https://moodle.cgsecurity.org/
+- en solo ou en binome, mettre au point une épreuve mettant en avant une commande linux vue lors du cours "Rappels Linux (exemple ssh1) me renvoyer les résultats sur grenier@cgsecurity.org

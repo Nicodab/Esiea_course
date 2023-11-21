@@ -1,0 +1,3 @@
+paquets n°338 a le IMSI ! --> voir comment récupérer le MSISDN !!
+339 --> Return update location: IMSI = 396123700001 --> PAS BON
+on récupère le transaction ID source et puis on le met en filtre en tant que ID transac dest pour retrouver le pacquet insert SbbsriberData

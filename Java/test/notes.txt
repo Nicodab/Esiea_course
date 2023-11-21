@@ -1,0 +1,122 @@
+Manuel de cmd qui permettent de voir les opérations en temps réel.
+On s'attend à avoir push, pop
+Y'aura les accès à distante ds les f° à implémenter.
+On veut pouvoir choisir (en tant que paramètre ds la calculatrice)
+- user local
+- user remote
+- user remote (shared) (- facile)--> qd un fait un poush les autres peuvent voir le réultat direct ds la pile quand c'est partagé. On partage avec le mot clé static.
+chaque * que ya un nv user on instancie sa pile (on instancie un nvle obj à partir d'une socket, chaque user aura sa propre socket). Pas de gestion avec x users connecté.
+- user remote (not shared) (+ facile) --> Le serv va instancier pls pile RPL
+- user log
+- user replay (log.txt) : on doit redéfinir le flux d'entrée avec le log.txt qui contiendra la ligne d'initialisation de notre flux.
+    --> Le user ne peut pas continuer ensuite à toucher à la calculatrice
+BOOLÉEN QUI DONNE SI EST EN MODE LOG (RECORDING) --> si on ne l'est pas on peut prendre les entrées/sortie de user. 
+ATTENTION: chaque truc qu'il nous demande c'est pas bcp de ligne à rajouter ds le code.
+il ne faut pas écrire 6 versions de notre pog, il faut juste identifié les flux qui seront impactés.
+
+en user remote on peut en avoir pls et on veut pouvoir indiquer s'il partage ou non la pile.
+stdin/stdout pour qu'on puisse récupérer les flux d'E/S d'un user --> avec un socket.
+
+rq: un user peut enregistrer une session pour être sur de pouyvoir la rejouer derrière.
+--> Dc qd on lance la calc en mode user, qd on est en enregistrement de log (ds un fichier txt) 
+--> Et dc après que le user fait quit/exit --> on peut récupérer tte les entrées que le user a fait durant la session.
+
+rq: on se limite sur des vecteurs de dimensions égales.
+
+" add, mult, div," les commandes du user 
+
+qd on est en mode remote, le calcRpl (est un objet) est la version serveur et on se co dessus avec un telnet par exemple.
+--> On doit savoir si calcRpl sera partagé ou pas.
+
+rq: on démarre en mode local term
+rq: a part les obj socket et serveurSocket on a pas besoin d'autres lib.
+rq: si on implémente une méthode printStack --> Go mettre la méthode printStack
+rq: y'a pas bcp a dév, ne pas mettre 50 lignes pour chaque fonctionnalités
+rq: il n'ira pas voir nos test unitaires.
+
+rq: ne pas hésiter à réutiliser le code du serv HTTP (et si on veut faire du browser web) --> A voir
+rq: si y'a pas de commande et que le user fait entrée oou jsp quoi on peut mettre une cmd par défaut.
+rq: qd on tape notre opérateur il ne rentre pas ds la stak mais la stack appelle la fonction d'ajout direct
+
+ds les logs:
+on a tout ce que l'utilisateur a tapé (on ne se pose pas la q° quelle utilisateur) --> L'enregistrement de log c'est 2 lignes ds notre code.
+if (logMode) écrire ds le fichier de log. --> Le mode log c'est que quand on est en mode mono utilisateur !
+
+rq: c'est interactif/ en ligne de cmd
+--> A la fin on rentre un calcul av les iff opérateurs rentrée au fur et à mesure. De base on ne fait qu'un seul opérateur mais par la suite on pourrait juste....
+Ds la version finale on veut pouvoir écrire une seul cmd (push 1, push 4, mult) --> Qui push 2 nb d'un coup ds la pile puis les multiplie. --> Qd on apelle l'addition il faut que précédement les nb aient été ajouté.
+le prog est utilisé comme il doit être utilisé, pas besoin de bcp de blindage.
+
+Constructeur explicite et implicite (où on indique pas la taille) --> pls constructeurs dans un même obj.
+
+--> Gestion d'exception pour pas que ça crash et que ça continue --> on fait simple. Si y'a une erreur ds une cmd on supprime juste la cmd et on laisse la pile dans son état.
+--> un try catch par commandes.
+
+rq: initLog c'est la méthode qui --> On track l'endroit où on fait une saisie user qui renvoit un obj String.
+
+revoir cmt faire les interfaces pour les intégrer ds le projet.
+
+"on appelle la méthode addition de la pile" 
+
+rq: avoir une main loop d'une entrée du user ()
+notre boucle princi est simple (ds un while tant que booléen et si le user tape "exit" --> Le booléen passe à false):
+1) saisie user 
+2) parser de cmd
+
+postfxe --> additionner -> on additionne les 2 en haut qui sont ds la pile déjà
+La commande push prend des paramètres --> (on peut faire push(42) puis push(1,2))
+
+push (1,2,3) = je rentre mn vecteur 3D avec 1,2,3 ds la pile et avec le parser de commande on lit ou jsp quoi
+si y'a pas de commande, la cmd implicite c'est le push et on peut rajouter le code du push dans le default.
+
+en distance c'est un flux textuel (jsp g pas compris). "on change la ligne d'initialisation du flux"
+
+conseil du prf --> faire une méthode paser de commande.
+
+
+Si on veut, une connexion qui a commencé dans un mode peut etre continuer dans un autre (il ne l'attend pas mais si on le fait faaut faire très attention à cmt on le fait --> peut etre très compliqué)
+--> conseil: les f° mult, div, add font un peu tous la même donc ça peut etre utile de faire une f° commune (peut etre à travers une interface)
+
+faire des boucles propres avec pas de break sauf dans un switch (un return par méthode qui renvoie qlqch et pas de break)
+
+rq: la taille de la pile on peut le paser en arg mais sinon on laisse la valeur par défaut à 4.
+rq: voir une librairie de log qui permet de générer des logs facile plutot que de passer par plusieurs f° de je ne sais ooù
+System.out.println() c'est pas mieux que d'avoir juste un out sur un flux de sortie --> c'est mieux d'avoir un flux de sortie qui peut marcher aussi bine  en locale qu'à distance.
+rq: si on a un obj d'un flux textuel bufferisée ça doit marcher.
+
+rq: dans init on a initialisé tout ce qu'on a parsé du user (inputUser et otputUser va manipuler notre moteur)
+
+
+rq: on fera un serveur de chat après noel donc intéressant de voir en avance (pas forcément en java je pense)
+
+// Ds initStream en f° des params passées en ligne de cmd on va à ouveau appeler des sous méthodes
+ds initStream on a ça: --> Un peu comme lle workflow de mon stage à ArianeGroup faut faire un workflow générique
+initFullLocal();
+initFullRemote();
+initFullReplayLocale();
+initReplayNetwork();
+
+rq: 
+- mettre le 1er en réel et 
+- mettre direct le 2eme en imaginaire
+
+attention au bufferReader ou inputBuffer bref ffaut utiliser des buffers pour l'échange d'info sur le réseau ou en locale puisque c'est générique.
+
+pas déconnant de faire:
+- try catch dans initStreams et dans chacune des init des f° du initStreams on peut faire just un throw d'exception pour les récupérer au niveau du calcUI.java
+
+
+3 flux
+inputUser (voir depuis les fichiers du prof cmt il l'a codé pour l'intégrer direct)
+outputUser (voir depuis les fichiers du prof)
+outputLog (qu'on initialise ds initStreams qd on est en recording de session avec un booléen passée à vrai)
+
+Revoir à quoi sert un Buffer pour lire(inputStream) ou écrire (outputStream)
+--> 2 BufferWriter 
+--> 1 Bufferreader, a voir cmt utiliser
+
+Cmt utiliser les données de inputUser (BufferReader) --> on veut récup la cmd tapé 
+
+Si on a un PrintWriter --> ne pas l'appeler pw mais plutôt outputQlch)
+
+rq: la socket on aura que besoin dans le FullRemote donc pas besoin en attr pcq on en aura besoin nulle part ailleurs.

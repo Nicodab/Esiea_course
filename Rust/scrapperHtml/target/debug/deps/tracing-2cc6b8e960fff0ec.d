@@ -1,0 +1,13 @@
+/home/nicolas/Documents/esiea/Rust/scrapperHtml/target/debug/deps/tracing-2cc6b8e960fff0ec.rmeta: /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/lib.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/macros.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/dispatcher.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/field.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/instrument.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/level_filters.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/span.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/stdlib.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/subscriber.rs
+
+/home/nicolas/Documents/esiea/Rust/scrapperHtml/target/debug/deps/tracing-2cc6b8e960fff0ec.d: /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/lib.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/macros.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/dispatcher.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/field.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/instrument.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/level_filters.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/span.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/stdlib.rs /home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/subscriber.rs
+
+/home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/lib.rs:
+/home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/macros.rs:
+/home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/dispatcher.rs:
+/home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/field.rs:
+/home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/instrument.rs:
+/home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/level_filters.rs:
+/home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/span.rs:
+/home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/stdlib.rs:
+/home/nicolas/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.40/src/subscriber.rs:

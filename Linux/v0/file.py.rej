@@ -1,0 +1,8 @@
+--- file.py	2023-10-18 17:21:50.438167952 +0200
++++ file.py	2023-10-18 13:07:42.590631995 +0200
+@@ -62,4 +63,4 @@
+ 
+ ## utiliser ce script avec 
+ #./file.py | xargs --null mkdir
+-#./file.py | xargs --null mkdir
++#./file.py | xargs --null mkdir

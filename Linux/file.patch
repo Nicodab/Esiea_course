@@ -1,0 +1,20 @@
+diff -ru v0/file.py v1/file.py
+--- v0/file.py	2023-10-18 13:07:42.590631995 +0200
++++ v1/file.py	2023-10-18 17:21:50.438167952 +0200
+@@ -13,8 +13,7 @@
+ 
+ 
+ 
+-#openssl f° a jour qdigest, openssl evb.h un truc comme ça qui est la version not deprecated
+-# evpd ctx new ou evp getDigestbyName(passe le md5 en arg) et on lui passe l'arg ou alors evp-q-digest on peut l'utiliser sans initialisation
++
+ 
+ 
+ 
+@@ -62,4 +61,4 @@
+ 
+ ## utiliser ce script avec 
+ #./file.py | xargs --null mkdir
+-#./file.py | xargs --null mkdir
+\ Pas de fin de ligne à la fin du fichier
++#./file.py | xargs --null mkdir

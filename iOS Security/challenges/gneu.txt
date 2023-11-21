@@ -1,0 +1,11 @@
+chip archi: Le SoC Apple A8 est basé sur une architecture 64 bits ARM depuis l'iPhone6 et l'iPhone6 Plus.
+magic: Le 'nombre magique' permet d'identifier le format du fichier sans avoir à analyser le contenu de ce dernier. La valeur en tête du fichier aide le système à déterminer comment interpréter le contenu du fichier.
+3 Le terme plist (Property List), est utilisé pour l'écosystème d'Apple. C'est un fichier qui sert principalement à stocker des objets sérialisés dans un format structuré.
+Ces fichiers jouent un rôle important dans le stockage des paramètres utilisateurs ainsi que les préférences pour les applications sur MacOS.
+
+Les 8 premiers entier/pointeurs sont retournées dans x0 (ou x1 si 128 bits)
+Les 8 premiers décimaux sont retournées dans v0 (ou v1 si 128 bits)
+
+- L'exécution de code sur iOS se bas e beaucoup sur la signature du code. iOS a besoin que le développeur signe le code à l'aide de ses cetificats afin de pouvoir lui faire confiance. De plus les données sont chiffrés dans une petite puce qui est un co-processeur permettant ainsi d'éviter d'utiliser un coeur de calcul comme le fait android.
+-  Secure Enclave: Processus de démarrage vérifiant principalement l'intégrité.
+- Sandoboxing: chaque application iOS tourne dans une sandbox.

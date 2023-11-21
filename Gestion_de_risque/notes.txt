@@ -1,0 +1,40 @@
+> L'E, ses enjeux, ses moyens
+Comment estimer la valeur? Avec la Net Present Value
+Le seul vrai risque pour une entreprise est la faillite.
+
+Définitions:
+Failite = ne plus pouvoir payer ses engagements (salaires, fournisseurs, sous-traitants)
+
+
+Chaîne de prod: Strat > Conception > Production > Vente > Support > Gestion & Control
+
+role principale d'un Manager: Maîtriser l'incertitude
+role principale d'un expert: Réduire l'incertitude
+
+ISO 31000 parle de la gestion des risques:
+- La gestion de risque doit aider àa la crétaion de valeur
+- être une partie intégrante de processus opérartionnels
+- être adapté
+- traiter explicitement de l'incertitude
+- être transparente et participative
+- prendre en comtpe les facteurs humain et culturel
+...
+
+
+Approche méthodo:
+- apprécier les risques: analyse, identification, description, hiérarchisation
+- évaluer les risque: estimer la menace, opportunité de la prise de risque 
+- traiter les risques: prévention, réduction de la fréquence ou de l'intensité
+- suivre les risques résiduel: variation
+
+but de la com: ammener une meilleure réactivité
+
+DICP (Intégrité, confidentialité, ...)
+
+pour mettre en place un bon niv de sécu il faut définir des mesures de sécu selon 4 axes:
+- Définition (de la mesure)
+- Conception
+- Exécution (faut que ça s'exécute bien)
+- Contrôle (bon niveau de contrôle pour controler que le reste fonctionne bien).
+
+

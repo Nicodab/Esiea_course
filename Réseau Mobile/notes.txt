@@ -1,0 +1,3 @@
+paquets n°30 a le IMSI ! --> voir comment récupérer le MSISDN !!
+source IP: d4:d6:9b:05:35:3e
+dest IP: 54:e6:00:c6:88:b841
