@@ -1,0 +1,29 @@
+Cobalt Strike c'est un C2, pour les exploits. C'est intéressant à utiliser.
+
+Les impacted assets en Graphique: Technique développé à l'aide de stamus
+	- CampoLoader: récupère le payload. fait partie de la famille de chose où il s vont aller chercher qlqch à l'extérieur.
+	- Anchor
+	- BazaLoader. Même famille que campoLoader;
+	- Cobalt Strike
+Onpeut construire la timeline de ce qui s'est passé avec l'outil graphique pour donc avoir la chaine des évènements.
+
+Partie signatures de suricata au niveau des alertes. 
+
+Rq: on  ades donénes protocolaires dispo dans le sallertes: Et on a un dashboard pour les aspects d'un filtre --> On a extraction des infoirmations sur les signatures.
+--> On peut parfois trouvé nottamenet des malwares auquel leur signature ont été reconnu. On peut aussi apr ex retrouvé les ionfos http comme les url et on trouve uassi uine IP de nom de domaine.
+"on peut pivoter sur l'interface pour voir les aletres une par une".
+Le pivot sur le flow ID permet de récup les infos rattaché à ça --> par ex: "Pkt to serveur, packet to client (si y'en a bcp c'est surement du téléchargement), Si y'a transfer de fichier on peut voir l'info relié à l'http lors du téléchargement --> On peut analyser le contenu du binaire pour voir ce que c'est.
+
+Tout le graphique (sauf déclaration de compromission) --> c'est dispo en ligne et installable avec docker.
+attention: les addr IP ne caractérisent pas les infos.
+rq: si on est à une échelle de proxy --> se baser sur les noms de domaine (et no  pas les addr IP car on ne verra pas les IP dest des attaquants).
+
+ETPRO Policy = pas forcment méchant ms qui vont pas forcément autorisé
+--> ETPRO PolicyExternal IP Check --> Permet de vérifier son addr IP publique, une requête a été faite (chelou/susopect un peu, personne fait ça sauf les attquants). Par ex, l'utilisat° de thor fait partie de Policy.
+ETPRO Hunting: user agent qui contient Loader à l'intérieur, on voit leur traces.
+
+Sous onglets Alert sur la gauche: donne la liste d'alertes selon les filtres.
+Bref, la corrélation sur le flowID va donner des infos sur ce qui nous intéresse, on additionne avec els autres signateurs quon met cote à cote.
+
+
+

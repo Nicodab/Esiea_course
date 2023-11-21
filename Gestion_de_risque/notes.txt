@@ -37,4 +37,204 @@ pour mettre en place un bon niv de sécu il faut définir des mesures de sécu s
 - Exécution (faut que ça s'exécute bien)
 - Contrôle (bon niveau de contrôle pour controler que le reste fonctionne bien).
 
+Exam:
+1 cas par équipe (une dizaine de page à lire) --> on représente un RSSI et on présente la compréhension de l'env ds lequelle on est à un eocmité de direction.
+--> On représente 1 personne à 3/4 --> mieux de pas s'y mettre au dernier moment. Ca va nosu prendre du temps.
+"On a le droit de poser des questions" --> Dans le sens où on pose notre questions au DSI par exemple on envoit les questions au prof qui tachera de nous répondre, et il évaluera la qualité des questions si on lui en pose.
+on a tout le loisir de poser des hyptohtèese sur les choses qui nous paraissent pas claire.
 
+Retour au cours:
+Maitriser 4 axes: conception, etc...
+cmt déterminer le besoin de sécurité d'une app? aer ngarde les vuln et on regarde qui pourrait faire des choses sur notre systèmes et identifier les failles les plus forte afin de les protéger en priorité --> On essaie d'apprécier le niveau de dispo d'un système.
+
+
+Confidentialité: compliqué à gérer. Pour protéger une information confidentiel il faut l'avoir en dehors d'un ordi.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CMDB : donne la base d'identification d'un data center. Généralement ça existe pas, ou quand ça existe, c'est pas claire.
+risque = "probabilité qu'un évènement survienne"
+Organisation => Attractivité => Menace => Faille de vulnérabilité = ON a un risque
+
+Comment analyser le risque ? 
+Une petite erreur d'appréciation, ça peut avoir des conséquences importantes
+
+Quelles st les bonnes étapes pour une analyse de risque?
+Analyser + évaluer la gravité des risques ==> cartographier les risques.
+Prévenir -> Protéger (un système ou moi) -> Détecter ==> Mettre des moyens de sécurité techniques et organisatiohnelle
+Agir/Réagir -> Gérer/communiquer ==> Assurer la "gestion" en cas de risque avéré
+
+Agent menacant:
+> peut etre une eprsonne, un groupe, une radiation, un evenement climatiques, etc... 
+On s'intéresse à l'intention (volontaire ou involontaire) ?
+Il ya plusieurs familles de menaces (environnementales, NRBC, ...)
+
+La vulnérabilité va concrétiser le risque:
+> Elle aparait autant sur tous les maillons de la chaine du system d'information que sur ses aspects externes.
+Pour tout identifier comme vuln il faut beaucoup d'expertise.
+
+On regarde l'impact, la potentialité, la gravité du risque pour savoir comment qualifier le risque.
+La formule la + élémentaire est el croisement imapct/potentialité.
+
+Estimationde l'impact:
+> Création d'échelle d'impact/ de vraissemblance avec des impacts quantitatifs("si ça touche 40% du park ça commence à devenir pénible" mais certains serveur s'il sont touché c'est très critique donc faut quand même supposé avec des OU ou ET) ou qualitatifs.
+
+C'est un peu mieux de parler de chiffre financier pour que les patrons comprennent mieux les impacts.
+
+Estimation de la potentialité (la vraissemblance d'une menace) sur un risque malveillant:
+On peut étudier la faisabilité qui repose sur:
+- La connaissance informatique de l'env ("est ce que j'ai besoin de bcp d'info pour mon attaque ou pas ?")
+- Niveau d'expertise pour conduire l'attaque.
+
+Cartographie & risque résiduel:
+Etre exhaustif.
+On choisit si on couvre nos risque résiduel (après avoir dit queel étaot notre top10)
+Mais on a besoin de les prioriser et de savoir combien ça va couter.
+
+RSSI:
+Il doit trouver les bons ele de langage et les différentes méthodes --> il met en place les bons moyens de protection pour etre protégé.
+
+Rq: risque résiduel c'est les risques qu'on a choisit de ne pas protéger car trop chère ou car trop de charge ou trop long j. Mais les risques résiduel peuvent augmenter.
+
+Parties 2:
+Risque = agent menacant + menace + vuln
+gravité = un impact * une opportunité (et certains rajoute l'aléa qui est la variation de risque dans le temps).
+
+Pour établir une vuln on fait des audits (dans son orga, son infra tech, son env, ses sites, batiments, locaux, ...)
+
+- Audit organisationnel = comrpendre cmt la sécu est organisé dans l'E => Généralement avec ISO27000 ou bien regarder cmt estd écrite la politique de sécurité de l'organisation.
+On va voir le RSSI, on lui demande s'il a des référents, etc...
+Puis go voir les != respo de la DSI pour poser des Q° et établir les failles eéventuelles (comme par ex demander la politique de mdp pour comparer avec ce qui a été annoncé précédemment).
+Vérif des regles de sécu selon 3 axes (mise en oeuvre, formalisation, contrôle).
+Consolida° des informations.
+Tous les auditeurs ne mettent pas forcément les points forts lors d'audits mais le prof le recommande.
+
+- Audit technique: pls formes (on est pas exhaustif)
+	Test de vulns (balayage d'un système, on regarde sa version et les failles connues)
+	Test de config
+Lors d'un test d'intrusion, il faut q'uon trouve une faille, et une fois qu'on l'a trouve, on ne s'arrête pas --> mettre des exécutables qui seront réveillées plusieurs mois ou années après, ça peut être intéressant.
+process de l'intrusion: intrusion > installation (de serveur caché, modification table de routage, compte illicite sur serveur, routeur, modif des mlibrairies système)
+Ca av être intéressant de regarder els audits de config°/concept°.
+
+- Audit de configuration:
+	Analyser la config des elem raccordés au SI selon 3 axes (topologie du rés, config des OS, sécurité des app).
+	Méthode d'audit se repose sur: entretient pers clés, ...
+	
+Pts de vigilance:
+les risques: surcharge de la bande passante du rés, atteinte à la dispo du service, atteinte à l'intégrité des donées, la confidentialité
+
+Méthodes d'analyse de risque pour la culture (le prof encourage à les lire):
+--> EBIOS
+--> MEHARI (Méthode Harmonisée d'Analyse des Risques Informatiques)
+
+EBIOS:
+Un référentiel documenté:
+	- Référentiel de menaces (40 aines de mances) --> Ca évite de trop réfléchir et pratique
+	- Base de vulns (le prof est pas sur de ça si c'est bien)
+	- ?
+Ex de menaces:
+Sinistre physique, majeur et perte de services essentiels, perturbations dues aux rayonnements, compromission des informations.
+
+> La démarche est en 5 étapes (croisement entre les besoins et les menaces du systèmes) --> Voir schéma.
+
+
+MEHARI:
+Voir les def et la définition du risque par exemple comparé à EBIOS --> On remarque qu'on est un peu plus dans l'E qu'avec l'EBIOS.
+> La démarche (vcoir schéma fonctionnel qui est intéressant).
+'Perte' pour les pertes opérationnelles dans le schéma focntionnel.
+Aller sur la slide de "Mesure de réductions du risque"
+
+C'est beaucoup plus concret que EBIOS --> La démarche est mieux go s'y intéresser poru le projet.
+En voynt la slide sur les phases on sent qu'on est uin peu + dans le concret et moins dans le conceptuelle contrairement à EBIOS.
+
+Autres méthodes: MARION, COBIT, ITIL (à prioris moins intéressant dans le cadre du cours).
+
+COBIT: embarque des risques au niv de l'E et de la DSI
+ITIL: pratique dans les processus d'exploitation --> c'est vrm le standard de bonne pratique dans un DATACENTER --> Intéressant à savoir pour un gars en cyber
+ETSI: consortium de l'industriel (effort de taxonomie sur les incidents de sécusi c'est un peu plus intéressant);
+
+A RETENIR: la méthodologie ne garantit pas le résulat.
+
+SLIDE/
+Cycle de la sécu selon ISO: on est bien dans u cycle contrairement à EBIOS qui est une démarche linéaire.
+
+Politique de sécurité SI:
+PSSI (POLITIQUE DE SÉCURITÉ si) = met en accord la maitrise d'ouvrage et la maitrise d'oeuvre (ceux qui déploie les sys de sécu et les mesures dans les si).
+--> iNSPIRÉ DE iso27000
+Définitions: ens des elem stratégiques, des directives, procédures, codes de conduites, regels orga, ... ayant pour obj la protect° du/des systemes de l'organisme.
+
+rq: ne pas mettre un user et un admin sur le meme poste
+
+Qualité d'une bonne PSSI: 
+	- Economie d'échelle
+	- Ref partagée
+	- Validation et reconnaissance par ts les acteurs du SI
+On doit pouvoir l'auditer, et pour ça faut qu'elle soit claire et précise
+
+SINON on peut prend la nnorme iso270001 et regarder les chapitres qui nous intéresse => Y'a aps tellement de page par chapitre (ex: gestion des incidents c'est 2 pages).
+
+Chaînage des docs composant le référentiel (à lire pour la culture): Voir schéma slide.
+autres politiques et plan: PCA, PAV, PC/DPC pour les potiliques plus spéciales comme les politiques de certifications, d'authent etc, ...
+Rq: pr une filiale  auX USA vs en france on a surement des référentiels différents et de nature différentes.
+
+"Tout ce qui n'est pas autorisé est interdit".
+
+rQ: UNE BONNE règle pour savoir si elle est bonne il faut que la règle soit claire (SMART)
+--> bone règle s'applique à une personne à la fois, un domaine à la fois, on doit pouvoir réussir à la mettre en oeuvre et qu'elle soit réaliste, il faut aussi qu'elle soit liée au temps (donc y'a une date butoir pour la réauditer, la changer ou autre).
+
+> Une fois que j'ai établie ma politique, il faut que ça se déploit:
+On met en place un plan d'action qui permet de mettre en musique ttes les recomendations.
+Attention à bien coordonnées tous les chantiers cyber pour pas que le projet tombe dans l'abadon ou autre.
+
+Slide "A prendre en compte":
+ - complexité technique
+ - complexité organisationnelle
+ - impact psychologique (facilité d'adhésion)
+ - délais de mise en oeuvre
+ - cout estimé
+ 
+ voir la slide "Résumons"
+ 
+PARTIE 4: Sécu logique et physique
+sureté(plutôt fiabilité des systèmes) vs sécurité (on imagine une entité malveillante)
+chiffre: 25% des E subissent des cyberattaques qui dégradent leur activités. 
+EN moyenne c 15j pour remédier à un incident de sécu détecté.
+
+Slide des solutions cyber --> En terme de solution c'est très fragmenté.
+
+sous Partie2: la sécu physique (un des chapitres de l'iso)
+"savoir faire le lien entre le logique et le physique" --> si qlqn a accès au systeme physique il peut brancher son poste et accéder tranqsuille au systeme meme si c'est hyper bien protéger en soft.
+
+Poru batir une bonne sécu physique il faut faire de la DÉFENSE EN PROFONDEUR:
+Le concept proviens de Vauban --> affaiblir, l'attq, la gêner, la retardé ==> Rechercher "château fort vauban" --> c'est intéressant.
+ - Renseignement est la 1ere ligne de def
+ - Pls ligne de défense coordonnées et ordonnées par capacité de défense
+ - la perte d'une ligne de défense peut affaiblir l'attq (mais très compliqué à mettre en place)
+
+Défense en profondeur --> ex avec la slide de la défense des aéroports
+
++ concrètement, le controle des flux et des accès:
+- Les flux de circvulation dans une E (visiteur/eployé) c'est déjà un moyen de protection
+- Badge, clé
+- Vidéosurveillance passive, dynamique
+- poste de garde, souvent des rondes
+- Gardiennage
+- gestion des alarmes (feu, fumée, inondation, ...)
+- Clôtures (infrarouge ?)
+- Eclairage,
+- Haut-parleur
+- Détecteur d'eau
+...
+
+"être instruit des moyens de victoire n'assurent pas de la remporter" sun tzu 
+
+projet: tenir 15mins pas +,
+On peut poser jusqu'à 5 questions aux personnes de l'E MAIS il faudra les mettre en annexe de la présentation.
+bien lire, faire des hypothèeses, on peut poser des q°. Soyons réalistes et cohérents--> on va devoir proposer 1 strat de sécu.
+Donc la q° c'est "c'est quoi le niveaud e sécurité dont on a besoin" et donc on répond à l'E avec des ARGUMENTS.
+le prof s'intérese aux arguments et au travail d'équipe.
+ATTENTION le chrono commence quand on rentre dans la salle.
+15 min de Q° réponse
+certaines idées --> chiffrer les infos échangés sur un certain périmètre
+bonus possible (sur la note finale) selon les q° qu'on pose au prof par mail
+Si jamais vous envoyer q° le smettre sure 1 planche en annexe de votre présentation.
+les supports doivent arriver 24h avant le rendu à midi.
