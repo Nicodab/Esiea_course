@@ -168,4 +168,60 @@ Rappel:
 
 Exemple1 (openssl est capable de chiffre un msg en shell):
 	echo -n "mssis_2324" > message.txt
+	openssl rsautl -encrypt -inkey rsa_pub.pem -pubin -in message.txt -out message.enc (pour chiffrer) OU alors pkeyutl au lieu de rsautl pour pas qu'il rale
+	openssl rsautl -decrypt -inkey rsa_priv.pem -in message.enc -out message_decrypted.txt (pour déchiffrer) OU alors pkeyutl au lieu de rsautl pour pas qu'il rale
+
+Exemple2: pour chiffrer un gros msg
+	dd if=/dev/zero of=message2.txt bs=1M count=1
+	openssl pkeyutl -encrypt -inkey rsa_pub.pem -pubin -in message2.txt -out message2.enc (pour chiffrer) OU alors pkeyutl au lieu de rsautl pour pas qu'il rale
+--> On obtient cette erreur: 'Public Key operation error
+803B5DCFE57F0000:error:0200006E:rsa routines:ossl_rsa_padding_add_PKCS1_type_2_ex:data too large for key size:crypto/rsa/rsa_pk1.c:129:' car la clé est trop petite pour la taille du message.
+possibilité Sol°: plutôt faire un hash du msg et on chiffre le hashé puisque le msg est trop grand --> openssl ne fais pas le hash par défaut comme pour la signature (mais pparement c'est pas bon)
+possibilité Sol°: faire du cbc pour chiffrer chaque bloc car chaque bloc est beaucoup plus petit qu'un message en entier. --> mais pas bien car le gigaByte on ne pourra pas l'atteindre ça va être beaucoup trop long pour un gros gros message(AVOIR une bonne idée du chiffrement cbc en tant que schéma).
+possibilité autre sol°: faire un genrsa bcp plus grand ?? est-ce une solution ? non si c'est trop grand car openssl dit que openssl ne peux généréer qu'au max une clé de 16384.
+	--> Si on fait un 'openssl genrsa 16384' ça tourne très longtemps et donc c'est le truc le + user-friendly donc go trouver une autre solution.
+
+vrai solution = chiffrement HYBRIDE (solution pour l'exemple 2):
+	1) On génère une clé symmétrique K (clé secrète symmétrique --> on l'a transmet à personne sauf au destinataire voulu).
+	2) chiffrement du msg avec un algo symétrique avec la clé K
+	3) on chiffre en asymétrique la clé K (on chiffre la clé symmétrique k avec du rsa) ==> On séquestre la clé K
+	4) on transmet les 2 msg chiffrés.
+		==> On appelle ça du "séquestre de clé" ou en anglais du "wrapping de clé"
+rq: généralement on fait un ptit coup de diffi-hellman pour s'échanger les clés.
+
+--> Conclusion: tout se passe bien mais toujours des attaques possible donc on fait du padding piour pallier à ça.
+Pour faire du padding on peut par exemple utiliser du PKCS1 version 1.5 (PKCS#1 v1.5) --> UTILISÉ pour le chiffrement et la signature.
+rq: le PKCS1 v1.5 a été amélioré CAR y'avait quand meme des faiblesses pour le chiffrement:
+	--> PKCS# 1 v2.1 
+		- Encryption: OAEP
+		- Signature: PSS
 	
+rq: DSA c'est pour faire de la signature. 
+rq: en entreprise --> plutôt faire du python que des lignes de comamnde à rallong openssl.
+
+Infrastructure gestion des clés:
+CERTIFICATS: lien entre identité et clé publique et ce lien c'est en fait juste une signature.
+=> L'idée est créer sa propre autorité de certification ou just son certificat à l'aide de ce site qui font vraiment les choses bien: https://github.com/OpenVPN/easy-rsa/tree/master
+
+Attention: ne pas générer son autorité de certification avec openssl
+
+outil pour bien utiliser et faire le tp:
+<pycryptodome>
+
+Fonction de dérivation de mdp (on va voir comment le coder):
+Comment embêter l'attaquant le + possible en + d'avoir un mdp assez long et en + d'un sel ?
+Réponse: il faudrait avoir un argument qui dit combien de tour de dérivation on faisait.
+
+ChaCha20: très bien, c'est un algo à mode de chiffrement par flow.
+Type de f° de dérivation de mdp:
+	Argon2d
+	Argon2id (dépend du processeur pour empêcher le //. A étudier pour choisir l'un ou l'autre)
+	--> Fais en sorte d'avoir une fonction qui permet de ne pas avantager un attaquant mieux équipé que nous avec notre CPU (avec un FPGA par ex)
+
+Rq: dans /etc/shadow le '$' est un caractère de séparation. généralement le 1er élém donne la fonction de dérivation du mdp --> voir dans la norme de /etc/shadow
+rq: yescript est un sccript comme argon qui fonctionne très bien.
+
+exo: faire une fonction def derive_pwd(pad, salt, iter).
+	--> pour dériver notre mdp on prend (pwd|salt) --> on met dans une boite pour sortir le hash sauf qu'à partir de ce hash on recommence l'itération N fois.
+	Rq: une fonction deriv_i est une fonction qui prendra en paramètre (pwd, salt, deriv_i-1). 
+	Peut-être voir comment implémenter une fonction de hashage pour éviter de pouvoir remonter à l'étape d'avant.
