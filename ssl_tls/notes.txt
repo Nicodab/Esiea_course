@@ -1,0 +1,171 @@
+
+openssl:
+tous les nouveaux algo ne st pas dedans.
+pour installer la version 3.2.0 (depuis le 23 Novembre), ça s'instale comme ça
+DES plus bon --> nouveau standard AES ajd.
+3DES: si k1, k2 et k3 sont égaux --> la taille de clé est 56, si c'est que k1, k2 qui st égaux --> 112 bits de taille de clé, 168 k1, k2 et k3 st différents --> taille de clé 168
+Mais pour DES ET 3DES, les blocs st de taille 64 bits.
+rq: pour l'AES la taille des blocs devraient être de 128 bits, les clés st de taille 128, 192 et 256
+Serpent ET Twofish utilisent la même taille de clés et de blocs que pr AES
+
+Chiffrement de fichier en natif on peut utiliser du flux par exemple ( c quoi ?)
+
+exo1:
+cmd: openssl enc -e -aes-128-ecb -in 01_plain -out 01_cipher
+on voit que le fichier contenant le chiffré a 32 octets alors que le claire a 10 octets ---> y'a du padding à cause des blocs.
+Faire un hexdump pour voir:
+hexdump -C 01_cipher --> pour voir ce qui s'est apssé dans 01_cipher
+observation:
+00000000  53 61 6c 74 65 64 5f 5f  cb cd 81 bc 60 58 3b 6c  |Salted__....`X;l|
+00000010  93 ae 8d ce df 2c e5 52  eb 59 10 c4 8e e5 9b af  |.....,.R.Y......|
+00000020
+Salted = seed 
+on voit un nouveau bloc de padding rajouté vide.
+--> faire un chiffrement du claire enciore pour voir vers un 01_cipher_bis en chiffrant avec exactement le même mdp (et la même entrée):
+openssl enc -e -aes-128-ecb -in 01_plain -out 01_cipher_bis
+diff -q 01_{cipher,cipher_bis}
+--> On obtient que les fichiers sont différents 
+
+en rajoutant un -p après:
+openssl enc -e -aes-128-ecb -in 01_plain -out 01_cipher -p
+on voit la clé et le salt généré
+Rq:
+- on retrouve le salt après le 8 premier octets.
+- On a 2 clés diff avec 2 fois le meme msg et le meme mdp
+
+Dans openssl y'a une f° de dérivation de mdp pour le mode ECB
+rq: mdp secret et le salt est publique
+rq: il dit que la f° de dérivation de clé utilisé est deprecated et qu'il faut utiliser pbkdf2 car c'est plus adapté.
+	--> Car si on a un fpga juste pour bruteforcer est possible alros qure pbkdf2 est trop compliqué à casser avec du hard.
+
+commande: openssl enc -e -aes-128-ecb -in 01_plain -out 01_cipher -p -pbkdf2
+
+Sans sel: openssl enc -e -aes-128-ecb -in 01_plain -out 02_cipher -p -nosalt (-p = affiche moi ce qui se passe)
+rq: cette fois la taille du fichier chiffré est de 16 et plus de 32 octets. 
+Si on veut tester si c'est déterministe: openssl enc -e -aes-128-ecb -in 01_plain -out 02_cipher_bis -p -nosalt
+Et on voit qu'on a exactement la même clé (et donc la même iv)
+
+CBC (y'a du padding):
+création un fichier de 0 où on va chiffrer 15 octets:
+- dd if=/dev/zero of=03_plain bs=15 count=1
+- openssl enc -e -aes-128-cbc -in 03_plain -out 03_cipher -p -nosalt
+On a 15 octets en sortie alors que y'a 15 octets d'entrée
+
+rq: si je met 16 octets d'entrée --> en faisant la même chose qu'au dessus on obtient une sortie d'un chiffré d'une taille de 32 octets (tjrs du padding)
+Par défaut, openssl (ne sait pas si on est dacc avec la personne en face pour que y'ait du padding) rajoute du padding.
+--> Et dc pour un bloc de 16 rempli sans besoin de padding, il rajoute unnoucveau  bloc de 16 bits uniquement de padding et donc il chiffre le 1er bloc et et le 2ème --> Le ciffrée est la concat du 1er bloc et le 2eme (qui est chiffré à partir uniquement de d'un bloc de padding)
+
+Comment es généré le padding ? 
+openssl retire le denier bloc de padding (et s'arrête au début du bloc de padding à sa connaissance).
+--> Voir slide sur le padding des chiffrement par bloc symmétrique (ISO 10126 met du random au lieu de 0 pr le padding) et pkcs7 (écrit sur chaque octet ds le padding la taille des octets qu'il rajoute).
+
+remarque:
+- Donc pour chaque chiffrement il nous sort un sel puis il mouline et nous sort une clé différente.
+- il semble qu'openssl utilise la norme par défaut de PKCS#7
+- il existe une option -nopad (si on ajoute ça lors du déchiffrement, ça ne retire pas le padding généré par le chiffrement).
+
+F° de hashage et code d'authent:
+3 propriétés:
+	- preimage (pas capable de remonter à l'entrée depuis un y donnée)
+	- 2nd preimage (pas capable de trouver un x' tq x' != x et h(x') = h(x))
+	- Collision (pas capable de trouver un (x,x') tq x'!=x et h(x')=h(x))
+	
+Utilisation de s f° de hash pour les codes d'authent:
+Def°: code d'authent assure l'authent du msg: le msg a pas été modif au cours d'une om° ou pendant le stockage.
+principes:
+	- f° de hashage à clé (HMAC). Rq: HMAC = on fait une étape, puis l'autre. 
+	- Chiffrment par bloc (CBC-MAC, GCM). Rq: GCM est capable de faire du chiffrement.
+	
+Voir slide ==> f° de hashage et code d'authent
+Rq: Blake, Skein et Keccak (Kechak) sont les 3 finaliste de Sha3.
+rq: HMAC (pour assurer le code d'authent: HMAC-SHA1, HMAC-SHA256) => on peut voir sur wikipédia les schémassont bien fait.
+rq: CRC32 CE N'EST PAS UNE FONCTION DE HASHAGE DE 32 BITS.
+rq: hmac )= f° de hash avec une clé (donc on va voir une clé à un moment). --> les clés c'est 0x36 ou 0x5c ( y'a donc 2 masques)
+Dans le monde symmétrique on signe le pas les données on assure l'intégrité avec code d'authent.
+
+Exo: utilisation des f° de hashage avec openssl:
+voir: openssl dgst -help
+
+exo:
+	- echo -n "mssis_2324" > 01_message
+	- openssl dgst -hex 01_message
+	output: SHA256(01_message)= 77620c3e065db1db2505245c054d7aa2a9c582a2877221c80e9090b9fe3e405d --> par défaut c'est sha256
+rq: 
+	- pour faire du sha1: openssl dgst -hex -sha1 01_message
+	- Pour avoir le binaure on peut ajouter -binary dans la commande puis faire une hexdump -C 01_dgst:
+		openssl dgst -binary -sha1 < 01_message > 01_dgst
+		hexdump -C 01_dgst
+avec openssl on est capable de générer le hmac (= f° de hashage avec 1 clé):
+--> openssl dgst -sha1 -hmac DEADFACE 01_message : (DEADFACE est une clé je crois),puis on a le hmac
+--> hmac permet de vérifier l'authenticité du msg.
+
+Aléa cryptographique:
+On l'utilise pour générer les clés crypto et aussi les iv (et aussi pour les salts) --> les sortie doivent être imprévisible:
+utilisa° classique: openssl rand -h
+On veut que si on a la même machine, meme hard, tout pareil --> on veut un aléa complètement différents. On veut une bonne source d'entropie.
+y'a un aléa qui marche un peu mieux que les autres, 
+
+Rq: cloudflare (un projet de eux) avaient un mur immeunse de pleins de lampes (lampes en forme de fusées avec de la cire) et les mouvements sont imprévisibles --> avec une webcam on regarde ces mouvements et on applique un chiffre à ces mouvements et voila.
+
+openssl rand 32 --> 32 octets d'aléa
+on peut faire une redirection: openssl rand 32 > random (pour la redirection vers un fichier de sortie sur linux).
+on peut aussi faire: openssl rand -hex 32, openssl rand -base64 32 (ça peut être utilisé pour un mdp pas cher)
+
+Utilisation avancée d'openssl (rajouter une source physique pour l'aléa):
+	--> dd if=/dev/random of seed.raw bs=512 count=1
+	--> openssl rand -rand seed.raw -hex 32
+	rq: seed.rawne doit etre utilisé qu'une fois (une maj est nécessaire pour réutiliser)
+
+ASYMÉTRIQUE avec openssl:
+rappel:
+	- couple (clé pub, clé priv): seul la clé privée doit rester secrète.
+	
+les problèmes mathématiques: "on ne fait plus des opérations logique comme du symmétrique mais mathématiques)
+	--> Factorisation: RSA,
+	--> logarithme discret: DSA, Diffie-Hellman (pour l'échange de clé), ElGamal (fait du chiffrement), Courbes Elliptiques
+L'anssi dit qu'on fait du RSA 2048 bis, alors qu'en courbe elliptique on peut faire du 256 --> division par 8 de la taille.
+
+> RSA
+****Génération de bi-clés: openssl genrsa -h*****
+--> génération d'1 bi-clé RSA de 1024 bits(1024 = taille du modulo ds la formule du RSA) : openssl genrsa 1024
+--> jouer avec les bi-clés:
+	openssl genrsa 1024 > rsa_priv.pem
+	cat rsa_priv.pem (pour afficher la bi-clé)
+	openssl rsa -noout -text -in rsa_priv.pem  (rsa pour inspecter une clé, -noout pour pas réafficher le fichier .pem)
+	--> en sortie: le private exponent c'est notre d (clé privée) dans l'algo rsa
+
+Protection de la clé privée:
+	openssl genrsa -aes128 1024 > rsa_priv.pem (permet donc de chiffrer cette clé) --> enf aisant un cat on voit que y'a marqué encrypted dans la délimitation
+	si on fait ça: openssl rsa -noout -text -in rsa_priv.pem --> On nous demande un mdp et il le fait car y'a marqué 'ENCRYPTED' en en-tête de la clé.
+	openssl rsa -aes128 -in rsa_priv.pem > rsa_priv.pem (ou sans aes) --> ça demande un mdp si il a été protégé. En gros, cette commande retire la protection.
+	
+rq: décrypter = casser sans la clé mais pas déchiffré
+rq: https://chiffrer.info/ --> pour comprendre les éléments de langage.
+rq: site magique: cyberchef (y'a une version offline)
+	
+	clé priv/pub:
+	openssl rsa -in rsa_priv_2.pem -pubout > rsa_pub.pem (ok pour ici car priv2 est déprotégé)
+	openssl rsa -noout -text -pubin -in rsa_pub.pem (en mode rsa, openssl s'attend à une clé privée donc on fait un -pubin)
+
+RSA Signature: la sig identifie celui qui signe car il est le seul à avoir la clé privée et le dest vérifie avec notre clé publique
+exemple1 (en partant du principe qu'on a déjà une clé privée non protégée et une clé publique extraite de cette clé): 
+	echo -n "mssis_2324" > message.txt
+	openssl dgst -sign rsa_priv.pem message.txt > message.sign (on sign avec l'option -sign et avec sa clé privée, puis on dit ce qu'on signe)
+	openssl dgst -verify rsa_pub.pem -signature message.sign message.txt (nous dit si la signature du msg est bien ok, mais si on a changé le msg entre temps ça dit erreur car ça 		regarde message.sign qui a été signé avant la modif du message.txt).
+
+exemple2:
+	dd if=/dev/zero of=message2.txt bs=1M count=1
+	openssl dgst -sign rsa_priv.pem message2.txt > message2.sign
+	openssl dgst -verify rsa_pub.pem -signature message2.sign message2.txt (et ça marche mais comprendre pourquoi)
+--> En pratique on élève pas direct à la puissance d (dans m^d[n] = Sn --> c'est le hashé du msg qu'on élève à la puissance d)
+--> donc c'est pas le msg que je signe c'est l'empreinte du msg ! qu'on signe et par défaut le hash utilisé par défaut est sha256 (comme qd on fait un dgst sans préciser l'algo)
+
+
+RSA Chiffrement:
+Rappel: 
+	- On Chiffre avec la clé publique du destinataire
+	- le destinataire déchiffre avec sa clé privée
+
+Exemple1 (openssl est capable de chiffre un msg en shell):
+	echo -n "mssis_2324" > message.txt
+	
