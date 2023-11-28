@@ -259,3 +259,10 @@ IV à 8 bits (mais c'ets l'IV de l'aes). IV est à 8 ou 18 octets ? alors qu'un 
 Faire projet!
 rq: vie de tous les jours: on chiffre puis on fait de l'intégrité (hmac par ex en symmétrique) mais il existe des f° qui font les deux en meme temps comme le mode GCM!
 rq: Le github veorq/cryptocoding est bien --> y'a des recommendations/bonnes pratiques pour coder de la crypto (comme par exemple comparer en temps constant des strings)
+
+outil intéressant: outil qui s'appelle z3 --> le prof nous montre le code source dans un fichier keygenme.c
+SINON, y'a une autre app pour s'entrainer à z3 avec le code de luhn.
+
+rq: faire du bypass d'AD assez facile pour nos payloads  il y a 2 algo créer par la NSA:
+	--> The Simon and Speck Families of Block Cipher (généralement pas torp reconnu par les moteurs d'antivirus)
+Pour bypasser certains trucs pdt des pentests --> c'est d

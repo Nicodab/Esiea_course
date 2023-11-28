@@ -78,4 +78,4 @@ if __name__ == "__main__":
     input_file = sys.argv[2]
     output_file = sys.argv[3]
 
-    decrypt_then_verify(password, input_file, output_file)
+    decrypt_then_verify(password, input_file, output_file) # Si ça se passe bien le prof veut qu'on renvoi vrai ou faux avec un sys.exit(0) si tout se passe bien
