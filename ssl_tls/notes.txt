@@ -188,9 +188,11 @@ vrai solution = chiffrement HYBRIDE (solution pour l'exemple 2):
 	4) on transmet les 2 msg chiffrés.
 		==> On appelle ça du "séquestre de clé" ou en anglais du "wrapping de clé"
 rq: généralement on fait un ptit coup de diffi-hellman pour s'échanger les clés.
+rq: dans le monde asymétrique on parle de signature et donc on oublie tout ce qui est nitégrité avec el hmac
 
 --> Conclusion: tout se passe bien mais toujours des attaques possible donc on fait du padding piour pallier à ça.
 Pour faire du padding on peut par exemple utiliser du PKCS1 version 1.5 (PKCS#1 v1.5) --> UTILISÉ pour le chiffrement et la signature.
+rq: en chiffrement PKCS 1 v1.5 a des faiblesses.
 rq: le PKCS1 v1.5 a été amélioré CAR y'avait quand meme des faiblesses pour le chiffrement:
 	--> PKCS# 1 v2.1 
 		- Encryption: OAEP
@@ -225,3 +227,35 @@ exo: faire une fonction def derive_pwd(pad, salt, iter).
 	--> pour dériver notre mdp on prend (pwd|salt) --> on met dans une boite pour sortir le hash sauf qu'à partir de ce hash on recommence l'itération N fois.
 	Rq: une fonction deriv_i est une fonction qui prendra en paramètre (pwd, salt, deriv_i-1). 
 	Peut-être voir comment implémenter une fonction de hashage pour éviter de pouvoir remonter à l'étape d'avant.
+	
+Qd on dérive un mdp avec itération on a un Km (une clé maître)
+MAIS on a aussi besoin d'une clé pour l'intégrité (pour le HMAC) en + de la clé maître dérivée du mdp (par notre fonction derviv_password)
+
+DEPUIS Km on peut générer Kc (clé de chiffrement) et Ki(clé d'intégrité) (en faisant des hash) mais on ne doit pas être capable de remonter à Km depuis Ki ni Kc ET on ne doit pas retrouver Kc depuis Ki et inversement..
+
+- Kc = f° de hashage qui prend Km en entrée --> Kc = H(Km || 0x00)
+- Ki = f° de hashage qui prend Km en entrée --> Ki = H(Km || 0x01).
+Rq: On rajoute un 0x01 pour éviter de pouvoir retrouver les autres éléments depuis Ki ou Kc
+Rq: le Km nous donne une clé de chiffrement et d'intégrité donc pas besoin de stocker la clé maître qlq part pendant tout ce qui est génération (mais typiquement on peut le mettre dans /etc/shadow)
+
+On veut donc rajouter une fonction qui permettra de générer une clé Kc (de chiffrement) et Ki(clé d'intégrité pour un HMAC par exemple).
+Voici la signature de al fonction pour l'exercice:
+def deriv_master_key(km: bytes).. ok c'est codé
+Une fois qu'on a toutes ces clés im faut que je puisse chiffrer et assurer l'intégrité
+ex: on choisi
+	- AES-256-CBC pour le chiffrement. 
+		On détermine les entrées, on a un IV(aléa), Kc et un input.
+	- HMAC-SHA-256 pour l'intégrité
+		On détermine les entrées, on a Ki comme clé en entrée et un input entrée arbitrairement par le user.
+	Q° normale à se poser (est-ce-que on utilise le même input pour les 2).
+	Attention: ON EST DANS LE MONDE SYMM2TRIQUE --> Dc on se met dacc avec qlq sur un mdp pour protéger le fichier qu'on partage en publique. La personne avec qui on s'est mis dacc, sera la seule personne à avoir le mdp et donc le seul à pouvoir vérifier l'intégrité par exemple.
+	En symmétrique on dit Encrypt(1) then MAC(2) PUIS Verify (1) then Decrypt (2) --> Comme ça on peut vérifier l'intégrité du chiffrer et si c pas bon bah y'a pas besoin de perdre du temps à le déchiffrer derrière et de perdre du stockage pour rien. De +, comme on fait un peu moins confiance au HMAC pour l'intégrité, si jamais un attaquant arrive  à remonter depuis le hash de sortie du HMAC jusqu'à l'entrée du HMAC --> Alors il vaut mieux avoir pris pour entrée le chiffré plutôt que le mot de passe en claire.
+Quelqu'un qui a chiffré dans ce cas, va stocker: salt||IV||C||H 
+Rq : En pratique, dans le HMAC on va mettre en entrée C, salt, IV car si jamais j'ai une erreur sur l'IV par ex lorsque je veux déchiffrer (bah avant ej verifie) mais si c'est vérifié et que je peux pas déchiffrer bah c'est pas bon. Donc tout ce qu'on a besoin de stocker est envoyé dans le HMAC pour vérifier tous leur intégrité.
+
+Exo: faire un programme qui resecte cette ligne de commande en prenant en compte ce qui a été dit au dessus: python3 protect_symetric.py <password> <input_file> <output_file>
+IV à 8 bits (mais c'ets l'IV de l'aes). IV est à 8 ou 18 octets ? alors qu'un bloc dans l'AES c'est 128 bits, le salt est à 64 bits(8 octets) APRES avoir dérivé le mdp
+
+Faire projet!
+rq: vie de tous les jours: on chiffre puis on fait de l'intégrité (hmac par ex en symmétrique) mais il existe des f° qui font les deux en meme temps comme le mode GCM!
+rq: Le github veorq/cryptocoding est bien --> y'a des recommendations/bonnes pratiques pour coder de la crypto (comme par exemple comparer en temps constant des strings)
