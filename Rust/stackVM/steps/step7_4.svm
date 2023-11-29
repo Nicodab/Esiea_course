@@ -1,0 +1,7 @@
+jmp 4
+push 98
+outc
+halt
+push 97
+outc
+jmp 1

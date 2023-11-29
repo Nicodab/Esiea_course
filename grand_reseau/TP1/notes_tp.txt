@@ -1,0 +1,4 @@
+tp1:
+od -c filename --> on voit des \r et ça nique awk pour un linux ça va faire nimp
+tr -d '\r' < router_no_comment.txt > router_no_comment.Unix pour retirer les \r
+

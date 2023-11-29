@@ -1,0 +1,6 @@
+push 1
+out
+push 42
+push 84
+swap
+out

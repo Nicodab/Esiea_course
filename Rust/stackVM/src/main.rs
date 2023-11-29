@@ -1,13 +1,17 @@
-// src/main.rs
 mod instruction;
 mod disassemble;
+mod vm;
 use clap::{Parser, ValueEnum};
+
+use crate::stack::Stack;
 mod compiler;
+mod stack;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, ValueEnum)]
 enum Mode{
     Disassembler,
-    Compiler
+    Compiler,
+    Runner
 }
 
 #[derive(Parser, Debug)]
@@ -25,7 +29,6 @@ fn main() {
     let args = Args::parse();
     println!("input: {}", args.inputfile);
     println!("mode: {:?}", args.mode);
-
     //let output_filename = "output.bin";
 
     let args: Args = Args::parse();
@@ -52,6 +55,9 @@ fn main() {
                     eprintln!("Error during serialization: {}", e);
                 }
             }
+        },
+        Mode::Runner => {
+            
         }
     }
 }

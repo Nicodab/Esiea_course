@@ -265,4 +265,4 @@ SINON, y'a une autre app pour s'entrainer à z3 avec le code de luhn.
 
 rq: faire du bypass d'AD assez facile pour nos payloads  il y a 2 algo créer par la NSA:
 	--> The Simon and Speck Families of Block Cipher (généralement pas torp reconnu par les moteurs d'antivirus)
-Pour bypasser certains trucs pdt des pentests --> c'est d
+Pour bypasser certains trucs pdt des pentests --> meterpreter est très souvent détecté et  

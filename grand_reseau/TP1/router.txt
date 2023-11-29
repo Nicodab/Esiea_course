@@ -1,0 +1,46 @@
+!
+version 12
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption #tte lignes qui contient un mdp sera chiffré (sinon les mdp de la conf sont en claires)
+!
+hostname conf.test
+!
+enable secret 5 A90yU2dikklkdNJnol # mdp d'administra° (qui est un hash md5)
+!
+interface FastEthernet0 # Identation (1 seul espace) pour ce bloc c'est important
+ no ip address
+ shutdown
+ speed auto
+ duplex auto
+ no keepalive
+!
+interface GigabitEthernet0/0
+ ip address 20.0.68.45 255.255.255.0
+ ip access-group BLOCK_VIRU in # IN pour entrer vers l'interface; BLOCK_VIRU
+ no ip proxy-arp
+!
+interface GigabitEthernet0/1
+ no ip address
+!
+ip access-list extended BLOCK_VIRUS # BLOCK_VIRU != BLOCK_VIRUS --> BLOCK_VIRU est défini mais pas appliqué; au lieu de IP on aurtait pu écrire tarte ou peut-importe pour l'approche. Mais le nom de l'ACL est BLOCK_VIRUS
+ deny   77 any any # permit/deny; protocol; addr_src; addr_dest
+ permit ip any any
+!
+access-list 23 permit 10.0.168.143 # ACL simple avec addr IP src uniquement
+access-list 24 permit 10.0.168.133
+!
+snmp-server community esiea RW 43 # pro snmp en ro ou rw suivi du nom de l'ACL; esiea est une communauté snmp (simple ntwk management protocol) et il dit 43 mais 43 n'existe pas c'est pas définit et dc esiea est la clé d'authen°. Rq: par snmp on pourrait changer la conf d'équipement si on est en RW mais plus aucun opérateur ne l'accepte en RW mais justye en RO. En RW on peut tout faire, par exemple changer le mdp d'admin
+!
+line con 0 # on a des line physique commme si on se rbanchait physiquement
+ password 7 04876346151
+line aux 0 # On utilise les auxiliaires pr des accès de secours 
+ access-class 33 in # YA PAS D'ACL qui définit les num 33 donc ça fait rien ici
+ password 7 04876346151
+ transport input all # Ici on autoruise tout à rentrer et on précise pas ce qui sort avec une autre ligne
+line vty 0 3 # on a des lines virtuelles... Si y'a pas de mdp suir la ligne, on rentre en invité sur le routeur --> on va de 0 à 3 donc on peut avoir 4 sessions utilisateurs en même temps, donc si y'a un 5ème qui arrive il sera rejeté
+ access-class 24 out # acces-class n°24 qui dit que le traffic est autorisée à sortir une fois qu'on est co sur la ligne virtuelle (il manque un IN apparement). Il faut un access-class IN
+ transport input telnet
+ transport output telnet
+!
+end

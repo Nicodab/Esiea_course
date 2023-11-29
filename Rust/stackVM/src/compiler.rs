@@ -2,7 +2,6 @@ use crate::instruction::Instruction;
 use bincode;
 use std::fs::{self, File};
 use std::io::{self, Write};
-use std::slice::Split;
 
 fn parse_instruction(input: &str) -> Instruction {
     let mut tokens = input.split_whitespace(); // Ou input.split(" ") si vous voulez diviser par des espaces
