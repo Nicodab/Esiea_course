@@ -1,0 +1,73 @@
+Les obligations et traitements:
+clearView collecte les photos de tt le monde pour mettre des noms dessus puis ls vendes(ils se sont pris 1 Million d'amende mais ils pont pas payés car ils sont "aux stats")
+Toutes les data personnelle ne permette pas d'identifier une personne
+
+Définitions:
+    Data personnelle = toutes données qu'on peut associer à une personne/ qui concerne une personne (par ex: majeur/mineur)
+    Traitement = toute action sur les données (collecter, enregistrer, transmetter, mettre dans un tableau, ect)
+
+L'objectif c'est que ces règles s'appliquent au traitement de données automatisées --> les traitements manuels ne st pas concernées (donc si on tape un mail à la main à quelqu'un,
+les règles ne s'appliquent pas à nous, contraitement à une news letter qui ns envoie des mails automatiques)
+
+Si on a une liste de contacte dans npotre smartphone pro , les règles vont s'appliquer (mais pas sur le perso)
+
+Notion de sous-traitant: les règles vont encadrer la manière dont travaillent le responsable et le sous-traitant
+Rq: dans les marchés publiques on parle de prestataire (qui eux embauchent des sous-traitants)
+
+--> Droit national qui complète le rgpd --> le rgpd ne s'applique pas à tout ce qui est police et justice et aussi tout ce qui est rensignement (ou c'est d'autres règles qui s'appliquent)
+
+
+- Désigna° d'un représentant:
+Si on est pas de l'UE, il faut qu'on ait un représentant en UE pour qu'on puisse avoir au - un interlocuteur (mais il ne sera pas responsable)
+
+- Accountability (responsabilité):
+Il faut être conforme et être capacble de le démontrer --> Il faut tenir une documentation de ses preuves et de pouvoir justifier chaque décision qui a été prise.
+
+- Principe:
+Protect° des données dès la conception et protect° des données par défaut
+    --> Principe relatifs des données à caractère personnel --> On ne collecte que ce qui est réellement nécesaire pour faire la finalité
+
+    Limitation de la conservaion des données à carcatères personnel (sauf au niveau comptabilité par exemple)
+
+
+LICÉITÉ (du traitement):
+licéité = Le caractère de ce qui est conforme à la Lo
+consentement = la plus mauvaise base de licéité 
+quand ils veulent nos cookies sur les sites c'est pour faire des sous.
+
+Registre:
+Tenue de registre
+--> ya des exemptions por des organismes à moins d e250 employées --> mais il faut un registre des activités que l'on fait.
+DONC tt le monde doit faire un registre
+
+Désignat° d'1 délégué (DPO = Data Protect° Officer)
+--> Pas forcément obligatoire d'en avoir un
+--> Un DPO c'est un moyen de faire respecter les règles
+Définition DPO = expert/conseillé qui va conseiller le responsable et qui va etre l'interlocuteur des personnens ocncernéezs et qui va aller controler qu eles choses sont bien conformes.
+--> Un DPO est généraleme,nt un employée intere ou externe (en gros oil est bien au service de l'employeur)
+--> Le DPO n'est pas responsable de la non conformité de l'entreprise (omme pour un médecin qui donne une poresription à son patient et que le patient ne le suit pas, le médecin n'est pas responsable)
+
+Sécurité - Autre obligation:
+On exige la sécurité, mais c'est pas le DPO qui va mettre en place la sécurité
+
+Données sensibles:
+en gros "c'est interdit sauf quand c autorisé" mais avec quelque exceptions comme le journalisme.
+
+Formalités subsitantes:
+Changement de paradigm pendant l'établissement du rgpd.
+Avant en 70, on avait juste a fairee son dossier à la CNIL et qu'ils l'accepte
+"pour traiter les données de santé ajd il faut une autorisat° de la CNIL"
+
+Analyse d'impact (PIA):
+un peu similaire à ce qu'on fait en gestion de crise (sauf que nous on regarde l'impact/les conséquences sur l'organisme)
+Alors que là c'est de regarder si les conséquences impactent les personnes physiques.
+On fait des PIA sur ts les traitements qui peuvent impacter les gens (que le traitement fonctionne ou non)
+
+Le prof demande bcp + de trucs que le rgpd en analyse d'impact afoin de voir l'entiereté du truc pour etre sur que c'est bien conforme
+rq: si on fait pas de PIA quand c nécessaire on peut avoir une sanction
+rq: qd on faut un passeport ils prennent nos empreintes --> c'est l'ANTS qui recueille les données persponnnelles afin de construire le passeport et donc c'est l'ANTS qui a le pouvoir de définir quel matériel sera utilisé pour récupérer ces infos
+
+Informations des personnes:
+l'annonce de ce qu'on va faire des données personnelles qui ont elle même été donnée par les personnes ciblées.
+Par exemple: les données qu'on donne pour le dossier de candidature de l'ESIEA, qu'est ce qu'ils vont en faire ?
+Déjà on peut se demander si certaines infos sont vraiment indispensables (comme par exemple si on nous demande Mr/Mme pour l'envoie de notre dossier à l'esiea on ne sait pas si ça sert à créer notre dossier, donc on pourrait le constester)

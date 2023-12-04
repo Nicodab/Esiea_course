@@ -6,6 +6,15 @@ from struct import pack
 from Crypto.Util.Padding import pad, unpad
 import sys
 
+'''
+Entrées:
+    - Password in bytes
+    - path to input file
+    - path ot output file
+
+Sortie:
+    - MAC & cypted msg written in output file: (Hi = SHA256(Hi-1 + {password} + salt + i))
+'''
 def encrypt_then_mac(password: bytes, input_file: str, output_file: str):
     # Dérivation du mdp
     iteration_count = 8192
@@ -39,7 +48,15 @@ def encrypt_then_mac(password: bytes, input_file: str, output_file: str):
         print(salt + iv + ciphertext + hmac_digest)
         file.write(salt + iv + ciphertext + hmac_digest)
 
+'''
+Entrées:
+    - Password in bytes
+    - path to input file
+    - path ot output file
 
+Sortie:
+    - information written in output file: (Hi = SHA256(Hi-1 + {password} + salt + i))
+'''
 def derive_pwd(password: bytes, salt: bytes, counter: int) -> Optional[bytes]:
     if counter < 1:
         print("Le compteur doit être supérieur ou égal à 1.")
@@ -53,6 +70,7 @@ def derive_pwd(password: bytes, salt: bytes, counter: int) -> Optional[bytes]:
         hash_result = SHA256.new(hash_result + password + salt + _.to_bytes(4, 'little')).digest()
 
     return hash_result
+
 
 def deriv_master_key(km: bytes):
     sha256_ctx = SHA256.new()
