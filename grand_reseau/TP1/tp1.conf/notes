@@ -1,0 +1,24 @@
+mode trunk pour l'interco de switch entre eux
+mode accès: pour les pc 
+
+qd on est en trunk on a de l'nencapsulation => permet de suivre le vlan dans les trames FastEthernet0
+puis on a truk allow vlan 3 4 5 --> On spécifie les vlan qui sont véhiculé
+non-negociate signifie que qd on est en accès sur une interafce...
+
+switchport acces vlan3 --> on met en coloration 3 et elle sera véhoiculé par le trunk car c'est marqué plus haut pour le mode trunk
+
+conf IPSEC:
+première partie importante = ike (négociation des "" d'authent") --> Negocia° pr le chiffrement entre 2 routeurs IPSEC
+dans le bloc crypto on a le mode DF
+
+crypto pure --> avec l'algo de chiffrement des ou autre
+
+--> crypto map qui comment en début de ligne OU sous une interface avec un petit espace !!!!
+
+crypto map IPSEC_1_1_10 --> puis pon a des peer mais on peut en avoir plusieurs
+
+on monte une sessions ip sec entre l'addr src de linterface et la destination donnée en peer dans la crypto map
+et si y'avais 10 addr IP dans l'interface (où y'a écrit cryptomap IPSEC_1_1 dans le bloc interface) --> et bah 10 sessions seront montée et raccordées à l'addr de destination défini dans cryptomap
+Il se base sur le chiffrement défini dans "crypto ipsec trasnsform.." pour appliquer la crypto map
+
+si on a plein de if () -> on peut mettre next dans un if si on sait que dans ce dernier on ne veut pas exécuter les autres mais passer à la ligne d'après
