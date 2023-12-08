@@ -21,12 +21,8 @@ for i in {1..3}; do
             destination_ip = $7;
             destination_mask = $8;
 
-            print "-------------------"
-            
-            if (isClassC(source_ip, source_mask) && isClassC(destination_ip, destination_mask)) {
-                print "OK - Configuration", FILENAME ".unix", "implements access-list 110 with Class C addresses:", source_ip, source_mask, destination_ip, destination_mask;
-            } else {
-                print "Not OK - Configuration", FILENAME ".unix", "does not implement access-list 110 with Class C addresses";
+            if (!isClassC(source_ip, source_mask) && !isClassC(destination_ip, destination_mask)) {
+                print "Not OK - Configuration", FILENAME ": line " FNR ". Error: No implementation access-list 110 with Class C addresses";
             }
             inside_access_list = 1;
         }

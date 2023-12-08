@@ -58,19 +58,16 @@ for i in {1..3}; do
                 }
             }
         }
+        
 
         END {
-            print FILENAME;
             if (crypto_map_defined) {
-                if (crypto_map_applied) {
-                    print "OK - Crypto map is defined and applied to FastEthernet interfaces.";
-                } else {
-                    print "Not OK - Crypto map is defined but not applied to FastEthernet interfaces.";
+                if (!crypto_map_applied) {
+                    print FILENAME ": Not OK - Crypto map is defined but not applied to FastEthernet interfaces.";
                 }
             } else {
                 print "Not OK - Crypto map is not defined.";
             }
-            print "----------------------------------------\n"
         }
     ' conf$i.unix
 done

@@ -5,12 +5,10 @@ for i in {1..3}; do
     }
     {
         if($1 == "interface") {
-            print "INTERFACE"
         interface_name = $2;
         inside_interface_block = 1;
         }
         if(inside_interface_block && $2 == "trunk" && $3 == "encapsulation") {
-            print interface_name
             trunk_encapsulation[interface_name] = $4;
         }
         if(inside_interface_block && $2 == "trunk" && $3 == "native" && $4 == "vlan") {
@@ -28,14 +26,10 @@ for i in {1..3}; do
         }
     }END{
         # Affiche les résultats
-        print("voici la liste des interfaces respectant les consignes\n")
-        print "Interface Trunk_Encapsulation Native_VLAN Allowed_VLAN Port_Security Mode_Access";
+        print "Liste des interfaces correctes dans " FILENAME ":"
         for (interface in trunk_encapsulation) {
-            print interface "\n"
-            print "------------------------"
-            print "secu: " security_port[interface] ", mode_access: " mode_access[interface]
             if (security_port[interface] != 0 || mode_access[interface] != 0){
-                print interface, trunk_encapsulation[interface], native_vlan[interface], allowed_vlan[interface], port_security_status, mode_access_status;
+                print "\t" interface, trunk_encapsulation[interface], native_vlan[interface], allowed_vlan[interface], port_security_status, mode_access_status;
             }
         }
         print"\n"

@@ -1,0 +1,131 @@
+Le compilateur va rajouter des mécanismes qui font en sorte que le prog qu'on a  écrit soit packagé dans notre OS et qu'il puisse être exécuté.
+Objectif: savoir lire l'assembleur et comprendre ce que c'est.
+Un processeur a une mémoire cache sur plusieurs niveaux.
+
+Familles d'archi:
+CISC:
+- Complexe Instruuct° Set Computer
+- Empreinte mémoire du code plus dense
+- Instructions très complexe
+--> Ex: Processeur x86
+RISC: Reduced Instruct° Set Computer
+Code RISC est compact -> instructions tous de même taille 
+1 cycle d'horloge par instruction
+Ex: ARM
+
+JEUX D'INSTRUCTIONS:
+81 instructions de base
+Taille d'une instruction de 1 à 15 octets
+--> plusieurs écritures possibles d'une même opération.
+
+ASM x86:
+8 registres généraux de 32 bits:
+- EAX: accumulateur
+- EBX: base (addr mémoire)
+- ECX: compteur (rep prefix)
+- EDX: Donnée (entrées/sorties)
+- ESI: Source Index
+- EBI: Dest Index
+- EBP: Base Pointer
+- ESP: Stack Pointer (sommet de la pile)
+
+Autres registres:
+EIP: Pointeur d'instructions
+EFLAGS: Flags (drapeau de 1 bit)
+Resgistre des segments mémoire (16 bits)
+--> CS: code
+--> FS, GS et DS: Données (data)
+--> SS: pile (stack)
+--> ES: Extra
+
+Rq: word = 2 octets, dword = 4 octets, qword = 8 octets
+
+Opérations arithmétiques:
+INC = Incrémentation
+DEC = décrémentat°
+CMP = Compare (ex: soustraction sans stockage du résultat)
+
+Instrcutions mov (plusieurs syntaxe):
+Intel --> mov dst, src
+AT&T --> mov1 %src, %dst
+Rq: on manipule bcp la base 1- avec 0x
+
+mov EBX, offset 'HELP' --> on a 1 str 'help' et on prend son offset donc son adresse qu'on place dans EBX
+Rq: qd on ecrit des struing en dur comme ça, ça se place direct dans le champ data.
+mov [EAX], EBX --> on place l'adresse ds le regiostre EBX
+
+Comprendre les instructions ci-dessous
+mov byte ptr[esi+ecx*4], 0F4h (byte ptr: on déplace q'1 seul octet) --> ecx*4 --> c'est surement un int car on place 4 octets par 4 octets dans un tableau
+--> le h à la fin signifie que c'est de l'hexa.
+mov dword ptr[eax], deadbeefh: met deedbeef dans la case mémoire où pointe eax. --> PTR[EAX] = EAX
+xor eax, dword ptr[ebx] fais un xor et stocke dans eax. Il prend le registre EAX et cherche la valeur pointé par EBX, puis l'a xor avec eax puis vas stocker dans eax.
+
+LEA: Load Effective Address --> soit faire 1 calcul, soit charger une addr
+Chargement d'1 addr
+Sert aussi à des opérations arithmétique.
+Ca ne nous donne pas le contenu de la case mémoire mais bien l'adresse
+ex: 
+- lea eax, [ebp+var_8]; (addr de var_8 dans EAX) --> On met l'addr de var_8 dans eax. EAX = EBP - 8 ici
+- lea edi, [eax+var_8]; EDI = EAX + 0x1C
+- lea eax, [eax+EDX*4]; EAX = EAX + EDX*4
+
+Décaalge et rotat°:
+- SAR: décal arithm à droite (conservation du signe si jamais)
+- SHR: décal logique à droite
+- SAL: décal arith gauche (pas forcément de diff avec l'opération logique pour la rota° gauche mais pour la droite SI )
+- SHL: décal logique gauche
+- ROL: Rota° gauche
+- ROR: Rota° droite
+
+- CF: contient le dernier bit sorti du registre
+	- (Dernier entrée ou sortie pour les rotations, cf. manuel)
+- SAR: conserve le signe
+- SAL = SHL (OF = 1 si changement de signe)
+
+Organisa° mémoire: y'a différentes pages mémoires allouées
+--> Structure spécifique à l'OS.
+Zone mémoire dynamique: 
+- Pile (stack)
+	- Utilisation "standardisée"
+	- LIFO
+- Le Tas (HEAP)
+	- Allocations à la demande
+
+La pile:
+- Utilisat°
+	Variable local
+	Passage de paramètres de fonction
+		Cf. convention d'appels
+- ...
+
+Convention d'appel (ABI): caractéristique de l'asm x86
+A retenir, le passage des paramètres est toujours dans la pile
+--> Dans la convention cdecl --> le caller nettoie la pile
+--> stdcall --> Le clean de la pile se fait souvent avec un return X (RETN X)
+
+Dans tous les cas, le retour de la f° se fait sdans EAX ou dans RAX
+Rq: pour 64 bits, une seul convent° mais différente en f° des compilateur:
+	- GCC: RDI, RSI, RDX, RCX, R8, R9 --> dans l'asm 32 bites, le passage des apram se font sur la pile
+	- Visual: RCX, RDX, R8, R9 + pile
+	
+Orga mémoire de la pile:
+Les addr basses sont en haut --> On veut pas que la heap ety la stack grandisent dans le même sens.
+Instruct° standard de manipulation de la stack:
+- ADD, SUB
+- POP, PUSH
+
+RQ: EIP (addresse de retour juste sous EBP-1) et EBP-1 est la frame du parent
+
+COMPRENDRE CE QUE c'EST UNE VARIABLE LOCALE
+
+ON EST EN 32 BITS ici pour l'appel call inc
+push ebp--> créer une nouvelle frame
+attention ESP représente toujours l'addr du haut de la stack
+
+ATTENTION: quand on est en 32 bits --> on a pas besoin de remplir au préalable
+Call est responsable de 2 choses:
+--> mettre l'addr de retour (car il sort de sa fonction parent)
+--> 
+rq: EIP = registre qui pointe sur l'addr courante de l'instruction qu'on est en train d'exécuter --> Et donc ça veut dire qu'on est dans une nouvelle f° et EIP va se mettre à pointer sur la première instruction. Et donc voilà au dessus de EIP on a la frame de inc qui va pouvoir se mettre en place
+"la f° appelé va créer une fame" --> c'est seulement l'empilement des différents actions dans EBP
+Quand on est dans la stack on est dans la ram et pas dans le cache du processeur ici. 

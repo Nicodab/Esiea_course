@@ -11,9 +11,9 @@ awk '
 }
 END {
     for (id in acl_def) {
-        if (!(id in acl_ref)) print acl_def[id], "def not in ref";
+        if (!(id in acl_ref)) print acl_def[id], ": Def not in Ref";
     }
     for (id in acl_ref) {
-        if (!(id in acl_def)) print acl_ref[id], "ref not in def";
+        if (!(id in acl_def)) print acl_ref[id], "Ref not in Def";
     }
 }' router.unix

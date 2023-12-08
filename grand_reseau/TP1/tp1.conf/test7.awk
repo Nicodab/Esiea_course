@@ -41,7 +41,7 @@ for i in {1..3}; do
         }
 
         END {
-            print FILENAME;
+            print FILENAME ":";
             # Affiche les résultats
             print "Interface Port_Security Mode_Access Trunk_Encapsulation Native_VLAN Allowed_VLAN";
             for (interface in port_security) {
