@@ -244,3 +244,6 @@ FreeBSD est un OS qui tourne sur android mais pas que j'imagine.
 FIB (Focused Ion Beam): dépose de la matière conductrice --> y'a des entreprises qui font ça pour attaquer des cartes à puces dans le but d'extraire les clés privées.
 
 magazine 'hackable' qui montre comment faire des attaques hardware ou pour démonter.
+
+Vendredi on finira la mise en place pour le tp --> Y'aura une évaluation à la fin des 2 TP de vendredi
+1er challenge: trouver la publication du site de l'ANSSI --> on peut lire le papier qui a 100 pages qui résume les attaques qui ont été faites sur les consoloes de jeu --> on peut voir kle détail sur les attaques. Stratégie d'attaques et de défense sur les consoles de jeu;
