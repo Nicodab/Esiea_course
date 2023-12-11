@@ -1,0 +1,246 @@
+============================================================================
+
+				INSTALLATION
+
+============================================================================
+Pré-requis pour avec l'esieabot:
+- Vérifier que c'est à jour:
+	sudo ap-get update
+	sudo apt-get upgrade
+	
+- Installation des outils sur la PI (on initialise les outils qui permettront de réaliser les TP à l'aide des cmd suivantes
+	sudo apt-get install python3-smbus python3-dev
+	sudo apt-get install i2c-tools
+
+Rq: 
+- Y'a un mdp sur l'esieabot qu'on a mis que'lque part dans un fichier texte. 
+Pour l'alimenter un utilise un gros cable noir 
+- Le tty c'est pas sg0 mais plutôt "asm quelquechose".
+- Faut se brancher sur le côté le + à l'extérieur pour que ça fonctionne (essayer de voir comment réinstaller tout ça depuis chez soit avec le câble noir)
+- "command screen introuvable" --> faire "apt install screen"?
+- Câble blanc y'a pas de donnée --> faut prendre le noir ?
+- Voir pour se co en wifi --> "Se connecter à l'esieabot en wifi" sur le site de tuto.
+
+Rq: 
+- pilocator --> trouver des raspberry Pi à des prix à peu près normal (c'est un peu moins documentée que rspberry.pi mais fonctionnalités équivalente).
+- mdp du réseau de wifi de l'école dans discord esieabot: avec l'adresse esiea et le mdp esiea (revoir en mail).
+
+Un moment faut mettre l'identifiant esiea et le mdp esiea.
+
+Quand il propose: faut choisir "keep the local package currently installed"
+
+
+============================================================================
+
+		Cours - Sécurité des système embarqués
+
+https://students.gotohack.io/challenges
+============================================================================
+
+prof: José Lopes Esteves (il a fait l'ESIEA)
+Il a monté l'application et l'évaluation de critère commun à Sojeti et après il a fait l'ANSSI dans un labo pour la sécu des technologies sans fils.
+C'est un docteur depuis 6 mois.
+
+Intégrité: S'assurer que l'info n'est pas modifiée par une entité qui n'est pas autorisée à le faire.
+Dispo: Qd les entités autorisées y ont accès quand ils en ont besoin
+
+C'est l'évolution des usages de l'information qui rende un objet conencté sensible.
+
+Domotique, automobiles (Jeep chez rocky --> interact° à distance via les réeau mobile (système d'infotainment) + modificat° de l'affichage sur le tableau de bord, ils arrivaient à actionner le parc assist sur un véhcule roulant --> peut-importe depuis où (distance) ils étaient aux USA).
+
+
+Archi: microcontroleurs (PIC, 8051, ARM, ...), crypto, certifiés, sécurisés, ..
+OS: Linux embarqué, RTOS, Google Brio, Android, ...
+Protocoles: wifi, bluetooth, ...
+
+La sécu vient après tous ces besoins là:
+- Basse conmmat°
+- Dimension réduite
+- Latence Faible
+- Hyper connectivité
+- Mobilité
+- Faible coût
+- Déploiement improtant
+
+Principaux risques:
+- Espionnage (capteurs): colelction de données
+- Sabotage (actionneurs): DOS, utilisa° abusive ou non autorisée
+- Détournement: exemple de Mirai.
+
+Impact potentiellement grave (voir slide):
+- Ex: dispositif médicaux implentables (pompe à insuline -> Protocole de com° raido est moins secure que les portes de garage moderne)
+- Ex: IEEE
+
+Attaque par accès physique (voir slide):
+	Pour le fabricant: cher à sécuriser
+	Pour l'attaquant: De - en - pas cher/difficile 
+	Avant: C'était trop compliqué/ cher de faire certaines attaques
+	Ajd: meilelur doc, outil + démocratisés et moins cher.
+4 type d'attaque par accè physique:
+	Attaque apr observation: pas de modif du cmportement de la cible et n'impose pas des signaux
+	Attque par itneraction: modifie des composant, se fait passer pour des composant --> envoie de signaux
+	Attque par modification/substitution: .. 
+	Exploit des interfaces de maintenance: ..
+
+Systèmes embarqués:
+Ex: 
+	La carte son est finalement un syst embarquée (dc un sys embarqué est un système électronique).
+	Commutateur
+	Routeur
+	Chiffreur (prend en claire et chiffre les flux)
+	Clé de voitures
+
+Revenons sur l'attaque par accès physique (et plsu précisément aux accès des composants):
+--> On va pas parler d'attaquer les composants (extraire les secret et peturber le fonctionnement)
+--> On va pas parler de Retro-conception par imagerie (reconstruct° du composant physiquement), ...
+
+Le choix des composant est essentiel (ts les composants ne permettent pas de tout faire).
+
+Surface d'attque:
+interne: Ce qu'on trouve en ouvrant un boitier --> Interface user, ports de co disponible 
+externe: Tout ce qui va servir à s'interconnecter avec d'autre syst embarqués
+
+rq: 
+ - Carte à puce = composé intégré
+ - Carte SD : circuit imprimé
+
+Dans le cadre du cours, on regarde les composants et le circuit imprimé.
+
+Surface d'ataque pour l'attaquant: globalelment les données et le code
+- mémoire lisibles et/ou inscriptibles
+- port de débogage/maintenance
+- interface non utilisé mais laissé actives
+
+Démarche d'analyse: 
+- Collecte d'infos d'un produits: il suffit de l'avoir entre les mains
+- Accès physique
+- Analyse du circuit
+- Identifiacat° des composants
+- voir l'interface de com° entre les composant car en tant qu'attaquant c'est avec ça qu'on vavenir s'interfacer.
+
+Démo:
+Utilise un périphéique commun (projecteur) entre 2 machines via un cable hdmi.
+Il essaye d'établir une com° entre une machine simple qui accède à internet et la mahcine qui "controle la centrale nucléaire"
+Le porjecteuir va fair office de véhicule de transport entre ces 2 machines.
+Un canal de communiication caché c'est une interface qui est utilisable pour communiquer mais qui n'est pas fait pour ça.
+Pour cette démo il faut compromettre les 2 machines elle-même.
+
+Explications:
+	Mécanisme technique qui permettent de faire ça:
+	Y'a un stockage d'info dans le projecteur --> Y'a des registres et des plages mémoire auxquelles il peut accéder.
+	--> Ds le hdmi y'a une interface de com° numérrique qui fait autre chose que la communication vidéo.
+
+	Rq: dans le vga y'a un bus de communication bidirectionelle. Y'a des mécanismes qui peuvent juste décrire les capcités de l'écran et par exemple la carte graphique va cherche 		
+	les infos dans le composant mémoire pour s'auto-configurer --> Modifier la lumonisté depuis le système hôte --> on a caccès à des registres et donc on peut modifier le
+	contenue.
+	pour faire un canal de com° caché il faut mettre des implant logiciel dans chacunes des machines.
+	
+Rq: une vuln logiciel permet d'exécuter du code ou de rendre du code non exécutable, exécutable --> ou alors si y'a un interpréteur.
+Rq: dans ce cas (can de com° caché ou injection de code pour une exécution lors d'un branchement du projecteur sur le prochain ordi) , si on peut écrire dans la mémoire il faut savoir combien on peut écrire
+
+
+Protoçcole sans sécurité (voir slide):
+- UART (port-série)
+- I2C
+- SPI
+Le I2C sécurisée n'existe pas --> pas authen, pas de confidentialité, pas de disponibilité
+La seul manière de séricusé ces trucs c'est de faire son capteurs: mais quand on a besoin d'un capteur on av chercher chez un fabriquants.
+Rq: si on est sur un composant qui a besoin de bcp bcp de débis, y'a des chances que ces protocoles là ne soient pas utilisés.
+
+I2C (un peu pareil en SPI): c'est un bus
+--> Ensemble d'identité qui vont partagé un protocole de communication.
+Et l'ensemble des identités va assister à l'ensemble des échanges.
+
+Maitre = client
+Esclave = serveur
+Un maitre n'a pas la même pile protocolaire qu'un esclave.
+
+Rq: un esclave peut jouer le protocole comme un maitre et se faire passer pour un maitre en interrogeant un maitre par exemple.
+
+Interca de programmation (UART)
+Protocole usuel:
+- JTAG
+- SWD
+- DebugWire, PDU, UPDI, TPI (AVR)
+On peut possuer/extraire du code via ces protocoles d'interface de communication
+
+Debug: on peut interroger les composant qui st autour d u composant auquel on touche.
+
+La protection dépond du SoC (System on Chip)
+
+Choix pour instrumentation:
+- Spécificité du protocole
+	Rôle slave/master
+	Couche (PHY, MAC, plus?)
+	implication sur le type d'équipement
+- Vitesse, fréquences
+	communication
+	maitrise de l'horloge
+	synchronisation
+
+Cas pratique:
+TOE = Target Of Evaluation --> ca désigne le produit
+JTAG = interface de programmation et de debug --> En gros c'est une interface hyper puissante pour faire du debug
+
+Inspection de config:
+- lvl 0: pas de protec°
+- lvl 1: accès au code par debug désactivée
+- lvl 2: interface de debug désactivée, config définitive
+
+Démarce d'analyse globale:
+- Accès physique (qd on a un dispositif ds les mains)
+- Analyse du circuit
+- Identifications des composants intéressant --> go lire les références des petits comopsants noires et lire leur docs (on avance comme ça)
+- identifications des interfaces
+- ???
+
+Accès au circuit: 
+Détection passive d'ouverture: Ajout d'éléments passif comme du scotch/ étiquette sur les xbox, freebox par exemple. 
+--> Technique de chauffage/refroidissement pour faire fondre la colle et empêcher le marquage de la détection d'intrusion
+Détection ative d'ouverture:
+
+Système de fixation :
+- clinchage: compliqué à ouvrir
+- par ultraon: compliqué aussi
+
+Détection actove: système d'alarme (alimenté) à coté du SoC.
+
+E4LD (certif) --> u'a des comemrcants qui disent "oh regarde le tel est hyper sécure c'est certifié E4LD" --> Bah non c'est faux puisque c'est la sim qui est certifié et non pas le tel.
+
+moteur de rcherche: www.octopart.com --> pour la doc de la conception de circuit imprimé.
+
+
+circuit imprimé:
+Y'a plusieurs pistes horizontale/verticale --> Ca peut etre sur une couche ou alors plusieurs couches aujourd'hui.
+
+Analyse du circuit:
+- recherche de pt de test
+- recherche de motif connu (lignes // pour identifier les bus de données). Plus lignes // sont longues, plus les signaux sont lents --> Les bus très rapide sont des lignes en // puis en zigzag. Rq: ce type de serpentin est aussi utilisé pour la RAM.
+
+Rq: parfois le fabricant masque le circuit électronique pour ne pas qu'on puisse voir les pistes.
+Rq: de l'engluage c'est pas une solution: c'est un retardant.
+Module NFC pour les controles d'accès.
+
+Ya plusieurs couches potentielles: on peu utiliser du papier abrasif pour retirer le vernis pour trouver les couches qui nous intéresse.
+
+pour l'analyse avec les rayons X, l'idéale c'est la tomographie.
+
+Cmt choisir ses outils ? En fonction de ses moyens et de signaux qu'on analyse
+- oscilloscope peut etre intéressant pour l'analyse de signaux --> Permet d'avoir les signaux en temps réel.
+- analyseur logique: surveille + de canaux mais pas d'affichage en temps réel.
+
+Analyse de protocole: faisable avec un oscilloscope.
+VSBMON, avoir wireshark --> on peut voir le traffic usb passer.
+Bus pirate: microcontroleur pour supporter les différents protoc -6> pas neutre, ça fait galérer mais bon quand même un couteau suisse gratuite. On peut par ex lire le contenu de la mémoire flash. Un peu un ancêtre.
+Le Shikra est mieux.
+Y'a aussi Ghidra Bus qui est pas mal.
+
+Chip Whisperer: pour les attaques par canaux auxiliaires --> plateforme pas très cher, et bcp de brique de code dispo. Même plateforme pour tt le monde et comparer les traces.
+
+JTAGulator: bruteforce de JTAG pour trouver les brochages --> marche aussi sur les ssd.
+RTKIT = OS qui tourne sur les microcontrolleurs iOS.
+FreeBSD est un OS qui tourne sur android mais pas que j'imagine.
+
+FIB (Focused Ion Beam): dépose de la matière conductrice --> y'a des entreprises qui font ça pour attaquer des cartes à puces dans le but d'extraire les clés privées.
+
+magazine 'hackable' qui montre comment faire des attaques hardware ou pour démonter.
