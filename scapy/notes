@@ -1,0 +1,103 @@
+Scapy a des layers: 
+- IP, TCP, UDP, Dot11 pour le wifi
+Y'a des valeurs par défaut:
+
+>>> a=IP()
+>>> a.show
+>>> print(a) --> prend la représentation de l'objet et met la en string
+>>> bytes(a) --> donne les octets qui vont etre envoyé
+>>> repr(a)
+
+Pour ajoutier des layer on met '/'
+pkt = a/TCP()
+--> On se retroiuve avec l'IP et par dessus du TCP
+Après avoir rajouté TCP det du data (RAW) --> pkt = IP(dst="8.8.8.8")/TCP(dport=80, sport=12345)/Raw(b"GET / HTTP/1.0\r\n\r\n")
+On peut faire bytes(pkt) --> il caclcule le checksum du paquet avant de l'nvoyer sur le réseau
+
+pkt[UDP] --> donne que la layer UDP
+pkt[IP] --> donne la layer IP mais par dessus y'a UDP
+
+TCP in pkt --> renvoie False ou True et vérifie si y'a un layer TCP dans le paquets.
+
+
+Rq: Raw c'est un layer d'un seul champ qui est "load".
+
+Systeme de contribution: load_contrib("socks") --> on peut charger/ importer des modules pour rajouter des layers.
+
+pkt[UDP].underlayer --> donne le layer IP
+
+. blob = raw(pkt[IP]) ou bytes(a) --> C'est des octets direct comme si on lisait depusi un pcap
+Puis IP(blob) --> Représente la paquetisation des octets mais montre tous les champs contrairement à pkt[IP] qui ne montre que les champs forcés
+
+send(pkt) --> envoyer un paquets au layer 3 (par exemple IP)
+sendp(pkt) --> envoyer un paquets au layer 2 (par exemple Ethernet)
+
+sr = send  & receive --> généralement on écrit: "ans, unans = sr(pkt)"
+
+sr1 --> j'envoie un paquet et j'attends une réponse --> donc ça renvoie une valeur et non pas deux comme sr.
+
+sniff() pour sniffer des listes de paquets -- on peut spécifier l'interface sur lequel on sniff.
+avec sniff on peut filtrer:
+- filter = BPF filter avec le kernel et ça va ultra vite
+- lfilter avec python mais bcp plus lent (il reconstruit le paquet) 
+
+Rq: ds wirshark en haut c'est un filtre de display et pas de capture
+
+pkts = sniff() puis ping 8.8.8.8 avec un autre shell
+si on veut juste capturer les paquets icmp par exemple on fait: pkts = sniff(filter="icmp")
+
+ou alors on peut faire ça pour print chacun des paquets [pkt for pkt in pkts if ICMP in pkt] --> [res boucle conditions]
+- Ex: [pkt.dst for pkt in pkts if "ICMP" in pkt and pkt[ICMP].type == 8] --> Renvoie une liste et construit tout ça en mémoire
+- Ex: (pkt.dst for pkt in pkts if "ICMP" in pkt a,d pkt[ICMP].type == 8) --> Construit un générator --> retourne au fiur et à mesure, il ne garde pas en mémoire. Il fait "donne moi le 1er", puis quand il l'a il demande le next et créer au fur et à mesure --> Il ne garde rien en mémoire.
+
+Ex: generator
+>>> g = print("%d" % i for i in range(14))
+>>> next(g) renvoi 0
+>>> next(g) renvoi 1
+>>> next(g) renvoi 2
+>>> next(g) renvoi 3
+
+
+Perf très lente ==> set([i+1 for i in range(14)]) --> charge tous en mémoire avec la liste puis déroule le truc pour le mettre dans le générator.
+
+Si on veut checker nos paquuets reçu ou construit sur scapy, on peut débugger avec wireshark ==> wireshark(Ether()/pkt)
+Rq: on a rajouté 'Ether()/' devant pkt car wireshark pour afficher les paquets il parse d'abord la couche liaison.
+
+avec code_prof: on peut lancer un sniff
+---> sniff(iface="mon0", lfilter="lambda", x: Dot11Beacon in x), mon0 ici représente l'interface wifi sur lequel on va sniffer et on conserve que les paquets qui ont du Beacon à l'intérieur.
+--> On observe que dedans y'a un truc qui s'appele .info (le SSID) et qui donne le nom du Wifi.
+On peut obtenir un point d'accès (avec PSSID): pkts[0].addr2 et pkts[0].info donne le nom
+Finalement: sniff(iface="mon0", lfilter="lambda", x: Dot11Beacon in x, prn = lambda p: print("[%s] %s" % (p.addr2, p.info))) ou sinon pour formatter on peut rajouter le f"...{}"
+Pour contineuir, si on veut afficher que les nouveaux (et pas juste les même en continu) -->
+
+TP2: faire un traceroute qui va plus vite que le vrai traceroute
+Traceroute basic: envoi paquets par apquets alors que là avec notre code on evnoit ts les paquets d'un coup
+Traceroute manuel et scapy qui sniff:
+>>> pkts = sniff()
+>>> pkts
+<Sniffed: TCP:0 UDP:61 ICMP:24 Other:9>
+>>> pkts[ICMP]
+<ICMP from Sniffed: TCP:0 UDP:0 ICMP:24 Other:0>
+>>> pkts[ICMP][0]
+<Ether  dst=ec:b1:d7:31:24:b5 src=10:d7:b0:07:a6:ee type=IPv4 |<IP  version=4 ihl=5 tos=0xc0 len=88 id=48312 flags= frag=0 ttl=64 proto=icmp chksum=0x39b3 src=192.168.1.1 dst=192.168.1.40 |<ICMP  type=time-exceeded code=ttl-zero-during-transit chksum=0xc719 reserved=0 length=0 unused=0 |<IPerror  version=4 ihl=5 tos=0x0 len=60 id=54125 flags= frag=0 ttl=1 proto=udp chksum=0x1464 src=192.168.1.40 dst=8.8.8.8 |<UDPerror  sport=54503 dport=33434 len=40 chksum=0xe136 |<Raw  load='@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_' |>>>>>>
+--> On voit que les types d'ICMP sont "time-exceeded"
+
+WIRESHARK: faut le lancer comme ça --> sudo wireshark
+
+IP(dst=["1.2.3.4", "8.8.8.8"]): comprendre ce que ça fait --> 
+IP(dst=["1.2.3.4", "8.8.8.8"])/UDP(dport=(1,5))) --> pour ts les porets de 1 à 5
+
+res, unans = sr(IP(dst=["1.2.3.4", "8.8.8.8"])) --> res[0].query et res[0].answer
+res, unans = sr(IP(dst="8.8.8.8", ttl=...))
+
+
+# y'a un traceroute intégré dans scapy
+ 
+ DNS rappel:
+ Par défaut: 
+ - UDP: 53 ou TCP: 53
+ trajet théorique dns
+ 
+ 
+ Tunneling ICMp (prochain TP): TP "cas de pentest"
+ proxy-chain ? on aura 2 script avec 1 serveur de chaque côté.
