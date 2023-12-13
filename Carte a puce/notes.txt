@@ -112,6 +112,7 @@ Quand on définit pas la méthode slelect, le compilo ajoute lui même la foncti
 
 Attention: coté applet, c'est la même zone mem où on écrit l'apdu de cmd et l'apdu de réponse. On fait Util.arrayCopy(msg, (short)1, buffer, (short)0, msg[0]);
 --> La cmd arrayCopy est utile --> pas de for par pitié !!
+le getBuffer sort un flag sur le tableau qui est crée à partir du retour de la méthode apdu.getBuffer() et don quand on appelle la méthode d'envoie sendAnd... ça envoit direct le tableau qui a été flagué par le getBuffer(). 
 
 Vocabulaire non compris:
 - form factor
