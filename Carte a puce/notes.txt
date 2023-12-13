@@ -110,6 +110,8 @@ La méthode install, qd est-ce qu'elle est faite ? 'est qd ça passe à l'interp
 
 Quand on définit pas la méthode slelect, le compilo ajoute lui même la fonction et renvoie true systématiquement pour dire que l'applet est prête à discuter !!! Le select est la fdernière étape qui va lancer la session ou pas.
 
+Attention: coté applet, c'est la même zone mem où on écrit l'apdu de cmd et l'apdu de réponse. On fait Util.arrayCopy(msg, (short)1, buffer, (short)0, msg[0]);
+--> La cmd arrayCopy est utile --> pas de for par pitié !!
 
 Vocabulaire non compris:
 - form factor
