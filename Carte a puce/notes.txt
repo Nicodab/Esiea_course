@@ -108,6 +108,9 @@ Par défaut en java c'est du int alors que en javacard y'a pas de int et donc fa
 rq: ds le code source de l'applet on ajoute le if(selectingApplet() == true) --> pour empêcher le bug où l'apdu de cmd du sm se fait rejouer dans l'apdu de 'applet alors que c'est inutile.
 La méthode install, qd est-ce qu'elle est faite ? 'est qd ça passe à l'interpréteur java après avoir compilé le .java (avec le pc) en .class puis avec l'interpréteur au moment où on charge l'applet la méthode install est appelé et c'est tout. En fait on instancie l'applet qui l'instanciation appelle le constructeur avec this.register().
 
+Quand on définit pas la méthode slelect, le compilo ajoute lui même la fonction et renvoie true systématiquement pour dire que l'applet est prête à discuter !!! Le select est la fdernière étape qui va lancer la session ou pas.
+
+
 Vocabulaire non compris:
 - form factor
 - standard PCSC
