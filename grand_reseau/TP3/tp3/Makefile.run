@@ -1,0 +1,40 @@
+.PHONY: clean default step1 step2 step3 step4 step5 all
+
+default:
+	# noop
+
+clean:
+	rm -f *output*
+	rm -r tmp
+	mkdir tmp
+
+all: step1 step2 step3 step4 step5
+
+step1:
+	rm -f zz.output.step1.txt
+	time find conf -name "router.unix.*" -print | xargs -P 1 -n 1 ./check.int.sh > zz.output.step1.txt || true
+	./compliance.sh zz.output.step1.txt
+
+step2:
+	rm -f zz.output.step2.txt
+	time find conf -name "router.unix.*" -print | xargs -P 50 -n 50 ./check.int.sh > zz.output.step2.txt || true
+	./compliance.sh zz.output.step2.txt
+
+step3:
+	rm -f zz.output.step3.txt
+	time find conf -name "router.unix.*" -print | xargs -P 1 -n 1 ./check.flex > zz.output.step3.txt || true
+	./compliance.sh zz.output.step3.txt
+
+step4:
+	rm -f zz.output.step4.txt
+	time find conf -name "router.unix.*" -print | xargs -P 50 -n 50 ./check.flex > zz.output.step4.txt || true
+	./compliance.sh zz.output.step4.txt
+
+step5:
+	rm -f zz.output.step5.txt
+	rm -r tmp
+	mkdir tmp
+	time find conf -name "router.unix.*" -print | xargs -P 50 -n 50 ./check.race || true
+	cat tmp/* > zz.output.step5.txt
+	./compliance.sh zz.output.step5.txt
+

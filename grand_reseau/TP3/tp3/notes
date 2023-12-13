@@ -1,0 +1,19 @@
+faire des find et pas des ls pour trouver les 50000 fichiers de conf (car ls utilise la taille du buffer et est limité)
+
+xarg --> -P (nb de process // qui vont bouffer ttes les confs) et -m (nb d'entrée que je peux fmettre sur 1 ligne d'un processus)
+cmd: find /entree/router | xarg -P 10 -m 2
+
+Makefile
+compliance.sh: compare chaque sortie si c'est consistent 
+--> on pourra comparer le temps entre les awk et les flex
+
+Step1:
+Faut quer ça dure 2 minutes max --> donc créer moins que 10000 si ça prend +
+Utiliser la cmd next (pour sauter les instructions suivant qui nous intéresse pas)
+. Le next arrete le parsing des lignes du fichier de conf et passe à la ligne suivante en recommencant la lecture des instructions pour cette ligne.
+Makefile.run: pour l'exécution des étapes --> gmake -f Makefile.run step1
+si on veut mettr e-n au lieu de -f, voir ce que ça change excatement.
+
+jsp quqoi: la regex d'IP adress dans flex on la vire.
+
+

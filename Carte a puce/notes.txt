@@ -1,0 +1,83 @@
+Communication process:
+Echanges: se fait en 3 fois
+--> envoie 1 apdu de cmd au bidule qui renvoie un apdu de réponse qui contient 2 mots de status sur 2 octets (systématiquement). 0x90 et 0x00 si tout se passe bien.
+
+Y'a des contraintes:
+APDU de cmd: 
+- partie obligatoire (4 octets)
+	CLA (classe): utilisé pour éviter les erreurs --> code qui montre à quoi correspontd ce qu'est lenvoyeur de l'APDU de cmd 
+	INS (instruction): on demande à la carte de faire qu'une seul instruction par apdu de cmd. 256 possibilités (8 octets) de combinaisons avec le paramètres 1 et le param 2.
+- partire optionnel:
+	Data: champ qui sera précédé de sa taille (Lc qui fait 1 octet). On a un env où les octets sont signé (donc de -126 à 127) --> mais on peut changer l'algo de sorte à tout 
+	mettre en > 0
+Rq: quand y'a pas de data, y'a pas de Lc
+	Le: Indique la taille des données qu'on attend en retour. Si on met 0x00 ça indique qu'on ne connait pas la taille pour les données de retour. Donc si on retire le champ le, la carte ne renverra pas des données ou bien ça sera drop.
+	
+APDU de réponse:
+- partie optionelle:
+	Data
+- partie obligatoire:
+	sw1:
+	sw2:
+Rq: APDU marche avec ou sans contact (donc pas que du NFC)
+Rq: le NFC(= nom commercial) c'est de la carte à puce sans contact.
+
+Micromodule components: voir slide
+- I/O controller: manage the flow of data between the dcard and card acceptance
+- ROM: where the instructions are permanently burned into memory by the silicon manufacturer.
+- RAM: temporary storage of results from calculations or I/O communications
+- APplication memory: EEPROM stores for 10 years +
+rq: plus on écrit dessus, plus on l'abime car électriquemetn parlant quand on écrit dans de la mémoire flash on fragilise le bail.
+
+What is the COS ?
+COS: Chip Operating System.
+Ajd, une carte c'est un carte java et la partie OS est totalement masqué.
+Rq: chaque fabricquant a son OS --> Y'en a avec des cmd générique et d'autres plus précises qui répondent à des demandes particulières.
+rq: les contraintes de vie de la carte font que y'aura le cycle de vie à gérer.
+
+En vrai c'est quelques dizaines de Kilos de données une carte on peut pas stocker + dedans en général.
+
+Rq: dans les cartes y'a pas d'OS standards, c'ests ouvent des OS maison.
+
+Barriers to Acceptance of Smart Cards:
+- une carte a puce ça sera tjrs + chere qu'une carte à piste magnétique. 
+- problème d'interopérabilités entre les programmes (si on a un usage et bah on a un protocole spécifique à cet usage)
+ce que chat dit: Voici quelques-uns des problèmes généraux qui pourraient être pertinents pour les smart cards aujourd'hui :
+
+    Sécurité : Les cartes à puce stockent souvent des informations sensibles, telles que des clés cryptographiques, des données d'identification, etc. Les problèmes de sécurité peuvent survenir en raison de vulnérabilités logicielles, d'attaques par force brute, d'interceptions de communication, etc.
+
+    Compatibilité : Certains problèmes peuvent survenir en raison de la diversité des normes et des spécifications dans le domaine des cartes à puce. Assurer une compatibilité entre différentes cartes et lecteurs peut parfois être un défi.
+
+    Évolution technologique : Les avancées constantes dans la technologie des cartes à puce peuvent poser des défis en matière de mise à niveau des infrastructures existantes. La migration vers de nouvelles normes et technologies peut être un processus complexe.
+
+    Applications obsolètes : Certaines applications sur les cartes à puce peuvent devenir obsolètes en raison de l'évolution des besoins et des exigences. La gestion efficace de la transition vers de nouvelles applications est un aspect important.
+
+    Gestion des droits d'accès : La gestion des droits d'accès aux données stockées sur une carte à puce peut poser des problèmes liés à la confidentialité et à la sécurité.
+
+    Intégration avec d'autres technologies : Les cartes à puce sont souvent utilisées en conjonction avec d'autres technologies, telles que les technologies sans fil (NFC, RFID). Des problèmes peuvent survenir lors de l'intégration de ces différentes technologies.
+
+Application areas:
+- University identification (variety of apps)
+- Health card (containing insurance data)
+- retail and loyalty (card marketed to specific consumer profiles)
+- ...
+
+Java card open platform (permet de donner une sorte de norme pour spécifier comment faire les échanges de clés crypto par exemple).
+Rq: tpm c'est un micro noyau qui est fondu dans une carte mère.
+
+Y'a de l'implémentation off card et on card.
+
+Pratique:
+Java card est un sous ensemble de la toute première version sortie de java:
+Rq: on peut compiler du java sans avoir un sdk. Avec les scripts qui sont fourni dans le zip c'(est suffisa,t
+- scriptwin32: les scripts. Y'a un setenv.bat qui sera le seul à modifier, on devra changer la 1ere ligne sachant que le nom de la var d'env est dans le sous réportoire de src.
+- src
+Vocabulaire non compris:
+- form factor
+- standard PCSC
+- 
+- 
+- 
+- 
+- 
+- 
