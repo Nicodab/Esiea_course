@@ -104,7 +104,7 @@ rq: quand on insère une carte dans un lecteur elle nous crache une suite binair
 
 - 1er echange: le gestionnaire de sécurité répond la 1ere fois quand on exécute le cilient et on voit le n° de l'applet (écrit en dure au moment de la compilation) avec lequel le client veut discuter. On a donc un APDU de cmd pour le SM dans le champ 'term'
 - 2eme echange APDU se fait avec cette applet --> et le 90 00 c'est ce que l'applet nous renvoie et non pas le gestionnaire de sécu comme le 1ere echange. On a donc un APDU de cmd pour l'applet dans le champ 'term'
-Par défaut en java c'est du int alors que en javacard y'a pas de int et donc faut caster en byte.
+Par défaut en java c'est du int alors que en javacard y'a pas de int et donc faut caster en byte --> En java card, les tableaux sont de taille fix et à une dimension, mais on ne connait pas leur taile.
 
 rq: ds le code source de l'applet on ajoute le if(selectingApplet() == true) --> pour empêcher le bug où l'apdu de cmd du sm se fait rejouer dans l'apdu de 'applet alors que c'est inutile.
 Vocabulaire non compris:
