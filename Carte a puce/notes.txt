@@ -72,6 +72,39 @@ Java card est un sous ensemble de la toute première version sortie de java:
 Rq: on peut compiler du java sans avoir un sdk. Avec les scripts qui sont fourni dans le zip c'(est suffisa,t
 - scriptwin32: les scripts. Y'a un setenv.bat qui sera le seul à modifier, on devra changer la 1ere ligne sachant que le nom de la var d'env est dans le sous réportoire de src.
 - src
+
+tjrs 2 sous repertoir:
+- applet: qui va sexécuter dans l'hôte ?
+	une applet java card doit etre packagé (package applet), il doit importer tt ce qui est dans javacard.framework avec import javacard.framework
+	Il faut un classe qui hérite d'Applet.
+	Un constructeur dans lequell on n'y passe qu'une seul fois
+	La méthode install est appelé une seule fois dans la carte au niveau de l'initialisation.
+	f° process qui va s'appeler a chaque fois que la carte recoit un APDU de cmd.
+	Attention;: pas de garbage collector --> donc la mémoire au fur et à mesure qu'on l'utilise, elle n'est pas libérée en java card. 
+	--> Donc les strcturtes mém dont on aura besoin seront implémenté dans le constructeur où on construit les taleaux où on fige la taille des tableaux ou des objets qui seront
+	nécessaire pour la vie de la carte.
+	Comment on se connecte à un Applet ? au début on parle au SM (Security Manager). Imagiez la carte comme un immeuble avec un gardien qui connait tout le monde. Et moi jarive je veux parler à mr machin. Il est censé y avoir un lien entre le gardien et mr machin. Ce lien se fait via this.register() dans le constructeur. 
+	Rq: les applets n'ont pas le meme espace d'addressage. Un applet a accès à TOUTE la RAM à un instant t mais y'a que elle qui a accès;
+- client: 
+	dans le code ce qui est intéressant c'est là où on forge son APDU de cmd:
+	"byte [] cmd_ = {0,0,0,0} //;
+	CommandAPDU cmd = new CommandAPDU(cmd_)"
+	rq: DISPLAY par défaut c'est un booléen qui est à vrai -6> si c'est vrai ça affiche les échanges quand tout s'est bien passé.
+
+On exécute dans l'ordre les script win32 --> Ca cré un dossier out où y'a mini par ex pour le 1er script avec un dossier applet et applet.cap ainsi que script.scr (avec ts les APDUS nécessaire à l'initiation du simulateur);
+Attention faut commenter la lignes quand on a pas de lecteur.
+script3: on laisse la fenetre ouverte et on lance le 4
+script4 : on lance et si tt se passe bien les 2 shell se refemrent et le simulateur est prêt ) etre utilisé
+script5: on exécute le simulateur
+script6: on exécute le client.
+
+Attention >> Il prend la carte plutot que le simulateur si on a une carte déjà d'insérer !!!!
+rq: quand on insère une carte dans un lecteur elle nous crache une suite binaire qui peut etre pris comme un n° de série (ou ATR) et si on va sur le site de ""
+, On peutretrouver le constructeur, l'année et dautres infos.
+
+- 1er echange: le gestionnaire de sécurité répond la 1ere fois quand on exécute le cilient et on voit le n° de l'applet (écrit en dure au moment de la compilation) avec lequel le client veut discuter.
+- 2eme echange APDU se fait avec cette applet --> et le 90 00 c'est ce que l'applet nous renvoie et non pas le gestionnaire de sécu comme le 1ere echange.
+
 Vocabulaire non compris:
 - form factor
 - standard PCSC
