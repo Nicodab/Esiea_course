@@ -121,6 +121,11 @@ pour 9 et 10: c comme 1 et 2 sauf que ce qu'on sauv ds la carte c'est un fichier
 Attention: On a besoin de générer le fichier des informations par rapport à la taille et le nom du fichier dans la carte et aussi le contenu. --> On stocke dans le tableau unique qu'on a a notr edispo --> on peut mettre dabord le nom du fichier (avec dabord le nb de caractère du nom du fichier). COmme ça si on veut récup ce fichier depuis un autre ordi avc cette carte c'est ok. 
 Comment on va uploader le fichier dans la carte --> faut sausicssoner le fichier pour l'envoyer et on a une boucle coté client. Cmt envoyer le - d'apdu possibles --> Coté client on a une boucle while (End of File) et on compte combien de morceaux de fichiers on a envoyé. Et tt les morceaux auron la meme taill sauf le dernier (logique) --> le nb de morceaux de taille max est à sauvegarder et aussi la taille du dernier.
 
+
+Avec la carte et pas le simulateur:
+Le script pour compiler le client et l'applet sont tjrs légitime mais il faut supprimer l'applet qui y'a deja sur la carte car ça a été laissé par l'étudiant d'avant. Donc on l'enlève pour installer le notre (avec notre script).
+--> Mais on autrait pu ajouter notre script d'applet sur la carte mais avec un autre nom mais ocmme on connait pas la taille mémoire de dispo sur notre carte on le fait pas ccar on est pas sur que ça nique tout.
+
 Vocabulaire non compris:
 - form factor
 - standard PCSC
