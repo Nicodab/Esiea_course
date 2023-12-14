@@ -131,7 +131,7 @@ makeApplet > makeClient > deleteCardApplet > InstallCardApplet > RunClient. Et l
 
 cipherGeneric coté client:
 on coed un apdu complet (on a besoin deu retour du res crypto) --> le res a la même taille dque ce qu'on envoit.
-Le champ CLA (il y en a une)
+Le champ CLA (il y en a une constante)
 LC = taille de challenge a caster en bytes
 Data = param de challenge qu'onb recoit
 Le: on l'envoit et la réponse avant de la recevoir on doit retirer sw1, sw2 sinon le base 64 de sortie sera différent de celui qu'on attend.
