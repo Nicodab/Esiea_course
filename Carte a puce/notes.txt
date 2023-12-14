@@ -148,6 +148,9 @@ param: doFinal(Source, offset_src, nb octet, dest, offset_dest)
 qu'est ce que va etre le tab src ? avec le buffer
 et l'autre c'est 5 (car c'est les données qu'on veut déchiffrer), cmb de données on va traiter ? --> pos 4 du buffer qui est Lc.
 
+LECTEUR de Carte à puce:
+Le prof a donné un lecteur et on doit vérifier que le hellworld fonctionne dessus!!
+
 Vocabulaire non compris:
 - form factor
 - standard PCSC
