@@ -115,7 +115,10 @@ Attention: coté applet, c'est la même zone mem où on écrit l'apdu de cmd et 
 le getBuffer sort un flag sur le tableau qui est crée à partir du retour de la méthode apdu.getBuffer() et don quand on appelle la méthode d'envoie sendAnd... ça envoit direct le tableau qui a été flagué par le getBuffer(). 
 
 
-pour le 6 du studentCard: ATTENTION NE PAS RENVOYER UN SEUL OCTET SINON ERREUR POUR L'ETAT SUIVANT. 
+pour le 6 du studentCard: ATTENTION NE PAS RENVOYER UN SEUL OCTET SINON ERREUR POUR L'ETAT SUIVANT.
+pour 9 et 10: c comme 1 et 2 sauf que ce qu'on sauv ds la carte c'est un fichier de tel sorte qu'avec la cmd 10 on puisse regénérer le fichier.
+--> Le répertoir par défaut c'est scriptWin3é -> donc les fichiers de textes faut les mettre ds ce dossier --> mettre en dure dans le client le nom de mon fichier de test.
+Attention: On a besoin de générer le fichier des informations par rapport à la taille et le nom du fichier dans la carte et aussi le contenu. --> On stocke dans le tableau unique qu'on a a notr edispo --> on peut mettre dabord le nom du fichier (avec dabord le nb de caractère du nom du fichier). COmme ça si on veut récup ce fichier depuis un autre ordi avc cette carte c'est ok. 
 
 Vocabulaire non compris:
 - form factor
