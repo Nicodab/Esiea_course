@@ -128,13 +128,23 @@ Le script pour compiler le client et l'applet sont tjrs légitime mais il faut s
 pour installer et exécuter l'applet intéressante sur la carte à puce physique: 
 makeApplet > makeClient > deleteCardApplet > InstallCardApplet > RunClient. Et là le code client pour l'applet qui nous intéresse est exécutée (et y'a l'appelet sur la carte qui va communiquer avec otre client)
 
-
+Carte physique <CLient> - applet cryptoDES 
 cipherGeneric coté client:
-on coed un apdu complet (on a besoin deu retour du res crypto) --> le res a la même taille dque ce qu'on envoit.
-Le champ CLA (il y en a une constante)
-LC = taille de challenge a caster en bytes
-Data = param de challenge qu'onb recoit
-Le: on l'envoit et la réponse avant de la recevoir on doit retirer sw1, sw2 sinon le base 64 de sortie sera différent de celui qu'on attend.
+	on coed un apdu complet (on a besoin deu retour du res crypto) --> le res a la même taille dque ce qu'on envoit.
+	Le champ CLA (il y en a une constante)
+	LC = taille de challenge a caster en bytes
+	Data = param de challenge qu'onb recoit
+	Le: on l'envoit et la réponse avant de la recevoir on doit retirer sw1, sw2 sinon le base 64 de sortie sera différent de celui qu'on attend.
+
+Carte physique <CLient> - applet cryptoDES
+on donne la valeur de champ cla qu'il attend dans 
+        if( buffer[ISO7816.OFFSET_CLA] != CLA_TEST )
+            ISOException.throwIt( ISO7816.SW_CLA_NOT_SUPPORTED );
+--> ENC et DEC font apel à cipherGeneric qu'il va falloir coder.
+cipherGeneric: elle récupère dees donneés transmis par le pc et renvoi un rés vers le pc
+testCipherGeneric: itère nb_loop fois une opéra° de chiffrement/déchiffrement. --> cmt utiliser la méthode doCipher ? A méditer.
+ds ts les cas on initialise un obj cipher et on appelle sa méthode doFinal pour faire du chiffrement ou déchiffrement selon son intialisation --> Attention faut comprendre les params
+param: doFinal(Source, offset_src, nb octet, dest, offset_dest)
 
 Vocabulaire non compris:
 - form factor
