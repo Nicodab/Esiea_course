@@ -119,6 +119,7 @@ pour le 6 du studentCard: ATTENTION NE PAS RENVOYER UN SEUL OCTET SINON ERREUR P
 pour 9 et 10: c comme 1 et 2 sauf que ce qu'on sauv ds la carte c'est un fichier de tel sorte qu'avec la cmd 10 on puisse regénérer le fichier.
 --> Le répertoir par défaut c'est scriptWin3é -> donc les fichiers de textes faut les mettre ds ce dossier --> mettre en dure dans le client le nom de mon fichier de test.
 Attention: On a besoin de générer le fichier des informations par rapport à la taille et le nom du fichier dans la carte et aussi le contenu. --> On stocke dans le tableau unique qu'on a a notr edispo --> on peut mettre dabord le nom du fichier (avec dabord le nb de caractère du nom du fichier). COmme ça si on veut récup ce fichier depuis un autre ordi avc cette carte c'est ok. 
+Comment on va uploader le fichier dans la carte --> faut sausicssoner le fichier pour l'envoyer et on a une boucle coté client. Cmt envoyer le - d'apdu possibles --> Coté client on a une boucle while (End of File) et on compte combien de morceaux de fichiers on a envoyé. Et tt les morceaux auron la meme taill sauf le dernier (logique) --> le nb de morceaux de taille max est à sauvegarder et aussi la taille du dernier.
 
 Vocabulaire non compris:
 - form factor
