@@ -127,6 +127,15 @@ Le script pour compiler le client et l'applet sont tjrs légitime mais il faut s
 --> Mais on autrait pu ajouter notre script d'applet sur la carte mais avec un autre nom mais ocmme on connait pas la taille mémoire de dispo sur notre carte on le fait pas ccar on est pas sur que ça nique tout.
 pour installer et exécuter l'applet intéressante sur la carte à puce physique: 
 makeApplet > makeClient > deleteCardApplet > InstallCardApplet > RunClient. Et là le code client pour l'applet qui nous intéresse est exécutée (et y'a l'appelet sur la carte qui va communiquer avec otre client)
+
+
+cipherGeneric coté client:
+on coed un apdu complet (on a besoin deu retour du res crypto) --> le res a la même taille dque ce qu'on envoit.
+Le champ CLA (il y en a une)
+LC = taille de challenge a caster en bytes
+Data = param de challenge qu'onb recoit
+Le: on l'envoit et la réponse avant de la recevoir on doit retirer sw1, sw2 sinon le base 64 de sortie sera différent de celui qu'on attend.
+
 Vocabulaire non compris:
 - form factor
 - standard PCSC
