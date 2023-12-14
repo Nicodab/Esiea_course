@@ -125,7 +125,8 @@ Comment on va uploader le fichier dans la carte --> faut sausicssoner le fichier
 Avec la carte et pas le simulateur:
 Le script pour compiler le client et l'applet sont tjrs légitime mais il faut supprimer l'applet qui y'a deja sur la carte car ça a été laissé par l'étudiant d'avant. Donc on l'enlève pour installer le notre (avec notre script).
 --> Mais on autrait pu ajouter notre script d'applet sur la carte mais avec un autre nom mais ocmme on connait pas la taille mémoire de dispo sur notre carte on le fait pas ccar on est pas sur que ça nique tout.
-
+pour installer et exécuter l'applet intéressante sur la carte à puce physique: 
+makeApplet > makeClient > deleteCardApplet > InstallCardApplet > RunClient. Et là le code client pour l'applet qui nous intéresse est exécutée (et y'a l'appelet sur la carte qui va communiquer avec otre client)
 Vocabulaire non compris:
 - form factor
 - standard PCSC
