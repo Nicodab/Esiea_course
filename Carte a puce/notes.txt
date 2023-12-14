@@ -145,6 +145,8 @@ cipherGeneric: elle récupère dees donneés transmis par le pc et renvoi un ré
 testCipherGeneric: itère nb_loop fois une opéra° de chiffrement/déchiffrement. --> cmt utiliser la méthode doCipher ? A méditer.
 ds ts les cas on initialise un obj cipher et on appelle sa méthode doFinal pour faire du chiffrement ou déchiffrement selon son intialisation --> Attention faut comprendre les params
 param: doFinal(Source, offset_src, nb octet, dest, offset_dest)
+qu'est ce que va etre le tab src ? avec le buffer
+et l'autre c'est 5 (car c'est les données qu'on veut déchiffrer), cmb de données on va traiter ? --> pos 4 du buffer qui est Lc.
 
 Vocabulaire non compris:
 - form factor
