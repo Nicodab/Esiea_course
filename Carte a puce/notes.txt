@@ -115,6 +115,7 @@ Attention: coté applet, c'est la même zone mem où on écrit l'apdu de cmd et 
 le getBuffer sort un flag sur le tableau qui est crée à partir du retour de la méthode apdu.getBuffer() et don quand on appelle la méthode d'envoie sendAnd... ça envoit direct le tableau qui a été flagué par le getBuffer(). 
 
 
+pour le 6 du studentCard: ATTENTION NE PAS RENVOYER UN SEUL OCTET SINON ERREUR POUR L'ETAT SUIVANT. 
 
 Vocabulaire non compris:
 - form factor
